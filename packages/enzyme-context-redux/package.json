@@ -1,0 +1,23 @@
+{
+  "name": "enzyme-context-redux",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc -b .",
+    "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json"
+  },
+  "dependencies": {
+    "enzyme-context-utils": "^1.0.0"
+  },
+  "description": "Initialize redux context with enzyme-context",
+  "main": "dist/index.js",
+  "repository": "https://github.com/trialspark/enzyme-context",
+  "author": "TrialSpark, Inc.",
+  "license": "MIT",
+  "peerDependencies": {
+    "enzyme": ">=2",
+    "react": ">=15",
+    "react-redux": ">=1.0.0",
+    "redux": ">=1.0.0"
+  }
+}

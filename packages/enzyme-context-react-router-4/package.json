@@ -1,0 +1,31 @@
+{
+  "name": "enzyme-context-react-router-4",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc -b .",
+    "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json"
+  },
+  "dependencies": {
+    "@types/history": "^4.7.2",
+    "enzyme-context-utils": "^1.0.0",
+    "history": "^4.7.2"
+  },
+  "description": "Initialize react-router v4 context with enzyme-context",
+  "main": "dist/index.js",
+  "repository": "https://github.com/trialspark/enzyme-context",
+  "author": "TrialSpark, Inc.",
+  "license": "MIT",
+  "peerDependencies": {
+    "enzyme": ">=2",
+    "react": ">=15",
+    "react-dom": ">=15",
+    "react-router": "4.x"
+  },
+  "devDependencies": {
+    "@types/react-router": "^4.4.1",
+    "@types/react-router-dom": "^4.3.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1"
+  }
+}

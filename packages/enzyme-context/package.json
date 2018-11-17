@@ -1,0 +1,21 @@
+{
+  "name": "enzyme-context",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc -b .",
+    "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json"
+  },
+  "description": "A framework for easily testing react components that rely on context.",
+  "main": "dist/index.js",
+  "repository": "https://github.com/trialspark/enzyme-context",
+  "author": "TrialSpark, Inc.",
+  "license": "MIT",
+  "peerDependencies": {
+    "enzyme": ">=2",
+    "react": ">=15"
+  },
+  "dependencies": {
+    "enzyme-context-utils": "^1.0.0"
+  }
+}

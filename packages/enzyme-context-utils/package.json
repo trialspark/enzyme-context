@@ -1,0 +1,18 @@
+{
+  "name": "enzyme-context-utils",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc -b .",
+    "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json"
+  },
+  "description": "Utilities for simplifying the development of enzyme-context plugins.",
+  "main": "dist/index.js",
+  "repository": "https://github.com/trialspark/enzyme-context",
+  "author": "TrialSpark, Inc.",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=15",
+    "react-dom": ">=15"
+  }
+}
