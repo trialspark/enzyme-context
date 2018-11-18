@@ -3,4 +3,6 @@
 
 module.exports = {
   projects: ['<rootDir>/packages/*'],
+
+  collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
 };
