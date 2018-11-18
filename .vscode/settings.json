@@ -13,5 +13,8 @@
   },
   "[json]": {
     "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true
   }
 }
