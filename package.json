@@ -54,11 +54,15 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,json,css,md,ts,tsx}": [
+    "**/*.{ts,tsx}": [
       "yarn prettier --write",
       "yarn build",
       "yarn check-types",
       "yarn lint",
+      "git add"
+    ],
+    "**/*.{js,jsx,json,css,md}": [
+      "yarn prettier --write",
       "git add"
     ]
   }
