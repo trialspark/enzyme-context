@@ -1,4 +1,4 @@
-# enzyme-context-redux
+# enzyme-context-apollo
 
 ## Introduction
 
