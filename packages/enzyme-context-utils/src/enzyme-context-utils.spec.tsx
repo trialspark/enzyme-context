@@ -61,5 +61,24 @@ describe('enzyme-context-utils', () => {
         `"A React.ComponentClass element must be passed."`,
       );
     });
+
+    it('supports passing childContextTypes directly', () => {
+      const Wrapper: React.SFC = ({ children }) => {
+        return (
+          <MyProvider foo="foo" bar="bar">
+            {children}
+          </MyProvider>
+        );
+      };
+      const context = getContextFromProvider(<Wrapper />, MyProvider.childContextTypes);
+
+      expect(context).toEqual({
+        myStuff: {
+          foo: 'foo',
+          bar: 'bar',
+        },
+        debug: false,
+      });
+    });
   });
 });
