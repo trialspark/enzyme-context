@@ -4,5 +4,8 @@
 module.exports = {
   projects: ['<rootDir>/packages/*'],
 
-  collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
+  coveragePathIgnorePatterns: ['<rootDir>/dist'],
+
+  // The directory where Jest should output its coverage files
+  coverageDirectory: 'coverage',
 };
