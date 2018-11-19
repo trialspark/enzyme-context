@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig-base.test.json",
   "include": ["./src/**/*.spec.*"],
-  "references": [{ "path": "./tsconfig.json" }]
+  "references": [{ "path": "./tsconfig.json" }, { "path": "../enzyme-context-utils" }]
 }
