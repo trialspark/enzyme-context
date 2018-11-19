@@ -9,3 +9,4 @@
   - [Apollo](packages/enzyme-context-apollo/README.md)
 - [Authoring Plugins](docs/authoring-plugins.md)
   - [Enzyme Context Utils](packages/enzyme-context-utils/README.md)
+- [Contributing](CONTRIBUTING.md)
