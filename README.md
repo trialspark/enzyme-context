@@ -1,6 +1,6 @@
 # enzyme-context
 
-[![Build Status](https://travis-ci.com/trialspark/enzyme-context.svg?branch=master)](https://travis-ci.com/trialspark/enzyme-context)
+[![Build Status](https://travis-ci.com/trialspark/enzyme-context.svg?branch=master)](https://travis-ci.com/trialspark/enzyme-context) [![Coverage Status](https://coveralls.io/repos/github/trialspark/enzyme-context/badge.svg?branch=master)](https://coveralls.io/github/trialspark/enzyme-context?branch=master)
 
 Enzyme Context is library that simplifies the process of testing components that rely
 on [react context](https://reactjs.org/docs/legacy-context.html) using plugins.
