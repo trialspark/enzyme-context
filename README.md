@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.com/trialspark/enzyme-context.svg?branch=master)](https://travis-ci.com/trialspark/enzyme-context) [![Coverage Status](https://coveralls.io/repos/github/trialspark/enzyme-context/badge.svg?branch=master)](https://coveralls.io/github/trialspark/enzyme-context?branch=master)
 
-Enzyme Context is library that simplifies the process of testing components that rely
-on [react context](https://reactjs.org/docs/legacy-context.html) using plugins.
+Enzyme Context is a pluggable library which simplifies the process of testing components that rely
+on [react context](https://reactjs.org/docs/legacy-context.html).
 
 ## Basic Usage
 
@@ -14,7 +14,7 @@ import { createMount, createShallow } from 'enzyme-context';
 import { reduxContext } from 'enzyme-context-redux';
 import { routerContext } from 'enzyme-context-react-router-4';
 import { createStore } from 'redux';
-import reducer from './reducer'; // this is _your_ app's reducer
+import reducer from './reducer'; // this is _your_ app's main reducer
 
 const plugins = {
   store: reduxContext({
@@ -30,7 +30,7 @@ export const shallow = createShallow(plugins);
 **MyComponent.spec.tsx**
 
 ```javascript
-import { mount } from 'test-utils/enzyme'; // import from the module defined above
+import { mount } from '../test-utils/enzyme'; // import from the module defined above
 import MyComponent from './MyComponent';
 
 // this example uses jest, but that isn't required!
@@ -40,7 +40,8 @@ describe('MyComponent', () => {
   let history;
 
   beforeEach(() => {
-    // mount() returns an object with:
+    // mount() returns an object with the mounted EnzymeWrapper component and each of the specified plugins.
+    // In this example, it returns:
     //   - component: the mounted EnzymeWrapper
     //   - store: provided by the reduxContext plugin, a redux store
     //   - history: provided by the routerContext plugin, a history object for URL manipulation
