@@ -1,12 +1,24 @@
 {
   "name": "enzyme-context",
   "version": "1.0.0",
+  "keywords": [
+    "enzyme",
+    "react",
+    "context",
+    "plugins",
+    "react-router",
+    "redux",
+    "apollo",
+    "testing",
+    "javascript",
+    "typescript"
+  ],
   "scripts": {
     "test": "jest",
     "build": "tsc -b .",
     "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
     "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json",
-    "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
+    "prepublish": "cp ../../README.md ./ && yarn build && yarn check-types && yarn lint && yarn test"
   },
   "description": "A framework for easily testing react components that rely on context.",
   "main": "dist/index.js",

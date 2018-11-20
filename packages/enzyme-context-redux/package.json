@@ -1,6 +1,16 @@
 {
   "name": "enzyme-context-redux",
   "version": "1.0.0",
+  "keywords": [
+    "enzyme",
+    "react",
+    "context",
+    "plugins",
+    "redux",
+    "testing",
+    "javascript",
+    "typescript"
+  ],
   "scripts": {
     "test": "jest",
     "build": "tsc -b .",

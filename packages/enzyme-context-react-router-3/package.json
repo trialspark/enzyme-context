@@ -1,6 +1,16 @@
 {
   "name": "enzyme-context-react-router-3",
   "version": "1.0.0",
+  "keywords": [
+    "enzyme",
+    "react",
+    "context",
+    "plugins",
+    "react-router",
+    "testing",
+    "javascript",
+    "typescript"
+  ],
   "scripts": {
     "test": "jest",
     "build": "tsc -b .",
