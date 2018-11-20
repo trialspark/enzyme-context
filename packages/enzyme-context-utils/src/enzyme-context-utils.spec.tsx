@@ -145,6 +145,16 @@ describe('enzyme-context-utils', () => {
       ).toThrowErrorMatchingInlineSnapshot(
         `"Provider contextTypes unknown. Either pass a component that defines childContextTypes or pass childContextTypes as the second argument when instantiating ContextWatcher."`,
       );
+      expect(
+        () =>
+          new ContextWatcher(Watcher => (
+            <div>
+              <Watcher />
+            </div>
+          )),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Provider contextTypes unknown. Either pass a component that defines childContextTypes or pass childContextTypes as the second argument when instantiating ContextWatcher."`,
+      );
     });
   });
 

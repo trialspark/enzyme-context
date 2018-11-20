@@ -31,7 +31,7 @@ export const apolloContext: (
   config: ApolloPluginConfig,
 ) => EnzymePlugin<ApolloPluginMountOptions, ApolloClient<NormalizedCacheObject>> = config => (
   node,
-  options = {},
+  options,
 ) => {
   const schema = makeExecutableSchema(config.schema);
   addMockFunctionsToSchema({
