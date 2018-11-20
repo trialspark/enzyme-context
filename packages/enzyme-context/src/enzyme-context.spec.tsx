@@ -59,9 +59,7 @@ const createPluginA = () => {
       updater,
       node: cloneElement(node, { hasa: 'true' }),
       options: {
-        ...options,
         context: {
-          ...options.context,
           controllerA: controller,
         },
       },
@@ -79,9 +77,7 @@ const createPluginB = () => {
       controller,
       node: cloneElement(node, { hasb: 'true' }),
       options: {
-        ...options,
         context: {
-          ...options.context,
           controllerB: controller,
         },
       },

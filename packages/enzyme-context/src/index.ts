@@ -20,7 +20,7 @@ export function createMount<P extends EnzymePlugins>(plugins: P) {
   ): TestObjects<ReactWrapper<P, S, C>>;
   function mount<P>(node: ReactElement<P>, options?: Options): TestObjects<ReactWrapper<P, any>>;
   function mount<P, S>(node: ReactElement<P>, options?: Options): TestObjects<ReactWrapper<P, S>> {
-    const pluginResults = executePlugins(plugins, node, options);
+    const pluginResults = executePlugins(plugins, node, options || {});
     const component = baseMount(pluginResults.node, pluginResults.options);
 
     patchUnmount(pluginResults, component);
@@ -50,7 +50,7 @@ export function createShallow<P extends EnzymePlugins>(plugins: P) {
     node: ReactElement<P>,
     options?: Options,
   ): TestObjects<ShallowWrapper<P, S>> {
-    const pluginResults = executePlugins(plugins, node, options);
+    const pluginResults = executePlugins(plugins, node, options || {});
     const component = baseShallow(pluginResults.node, pluginResults.options);
 
     patchUnmount(pluginResults, component);

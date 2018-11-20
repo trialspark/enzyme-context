@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { EnzymePlugin } from 'enzyme-context-utils';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
+import merge from 'lodash.merge';
 import { EnzymePlugins, GetOptions, GetControllers } from './Types';
 
 type UpdaterFns = NonNullable<ReturnType<EnzymePlugin<any, any>>['updater']>[];
@@ -15,17 +16,17 @@ type PluginReturns<P extends EnzymePlugins, O extends GetOptions<any, P>> = {
 export function executePlugins<P extends EnzymePlugins, O extends GetOptions<any, P>>(
   plugins: P,
   node: ReactElement<any>,
-  options: O,
+  options: NonNullable<O>,
 ): PluginReturns<P, O> {
   type Controllers = GetControllers<P>;
 
   return Object.entries(plugins).reduce(
     (previous, [key, plugin]) => {
-      const result = plugin(previous.node, previous.options);
+      const result = plugin(previous.node, options);
 
       return {
         node: result.node,
-        options: result.options,
+        options: merge({}, previous.options, result.options),
         controllers: {
           ...(previous.controllers as object),
           [key]: result.controller,

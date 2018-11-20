@@ -16,6 +16,8 @@
     "react": ">=15"
   },
   "dependencies": {
-    "enzyme-context-utils": "^1.0.0"
+    "@types/lodash.merge": "^4.6.4",
+    "enzyme-context-utils": "^1.0.0",
+    "lodash.merge": "^4.6.1"
   }
 }
