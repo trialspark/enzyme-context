@@ -13,7 +13,6 @@ import {
 } from 'graphql-tools';
 import ApolloClient from 'apollo-client';
 import { SchemaLink } from 'apollo-link-schema';
-import { MountRendererProps } from 'enzyme';
 import { ApolloProvider } from 'react-apollo';
 import { defaultMocks } from './Utils';
 
@@ -53,13 +52,10 @@ export const apolloContext: (
     node,
     controller: client,
     options: {
-      ...options,
       context: {
-        ...options.context,
         ...context.value,
       },
       childContextTypes: {
-        ...(options as MountRendererProps).childContextTypes,
         ...ApolloProvider.childContextTypes,
       },
     },
