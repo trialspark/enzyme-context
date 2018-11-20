@@ -26,6 +26,5 @@
     "enzyme": ">=2",
     "react": ">=15",
     "react-apollo": "2.x"
-  },
-  "devDependencies": {}
+  }
 }
