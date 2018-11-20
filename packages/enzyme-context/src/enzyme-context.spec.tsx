@@ -1,6 +1,6 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { ReactWrapper, MountRendererProps, ShallowWrapper, shallow } from 'enzyme';
+import { ReactWrapper, ShallowWrapper } from 'enzyme';
 import { EnzymePlugin } from 'enzyme-context-utils';
 import { createMount, createShallow } from '.';
 

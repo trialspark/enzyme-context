@@ -57,7 +57,7 @@ const MyComponent: React.SFC = () => {
   );
 };
 
-const introspectionJSON = describe('enzyme-context-apollo', () => {
+describe('enzyme-context-apollo', () => {
   let mount: ReturnType<typeof createMount>;
   let component: ReactWrapper;
   let client: ApolloClient<any>;
