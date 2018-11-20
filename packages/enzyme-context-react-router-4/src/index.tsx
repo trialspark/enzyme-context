@@ -1,8 +1,7 @@
-import React, { cloneElement, Component } from 'react';
-import { EnzymePlugin, getContextFromProvider } from 'enzyme-context-utils';
+import React from 'react';
+import { EnzymePlugin, ContextWatcher, bindContextToWrapper } from 'enzyme-context-utils';
 import { Router } from 'react-router';
 import { createMemoryHistory, MemoryHistory, MemoryHistoryBuildOptions } from 'history';
-import { render, unmountComponentAtNode } from 'react-dom';
 import { MountRendererProps } from 'enzyme';
 
 export type RouterPluginMountOptions = {
@@ -11,12 +10,14 @@ export type RouterPluginMountOptions = {
 
 export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, MemoryHistory> = () => (
   node,
-  options = {},
+  options,
 ) => {
   const history = createMemoryHistory(options.routerConfig);
-  const provider = <Router history={history} />;
-  const context = getContextFromProvider(provider);
-  const childContextTypes = (provider as React.CElement<any, any>).type.childContextTypes;
+  const context = new ContextWatcher(Watcher => (
+    <Router history={history}>
+      <Watcher />
+    </Router>
+  ));
 
   return {
     node,
@@ -25,31 +26,13 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, MemoryH
       ...options,
       context: {
         ...options.context,
-        ...context,
+        ...context.value,
       },
       childContextTypes: {
         ...(options as MountRendererProps).childContextTypes,
-        ...childContextTypes,
+        ...(Router as any).childContextTypes,
       },
     },
-    updater: wrapper => {
-      const root = document.createElement('div');
-
-      class ContextListener extends Component {
-        static contextTypes = childContextTypes;
-
-        componentDidUpdate() {
-          wrapper.setContext(this.context);
-        }
-
-        render() {
-          return null;
-        }
-      }
-
-      render(cloneElement(provider, undefined, <ContextListener />), root);
-
-      return () => unmountComponentAtNode(root);
-    },
+    updater: bindContextToWrapper(context),
   };
 };

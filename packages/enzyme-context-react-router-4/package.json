@@ -19,7 +19,6 @@
   "peerDependencies": {
     "enzyme": ">=2",
     "react": ">=15",
-    "react-dom": ">=15",
     "react-router": "4.x"
   },
   "devDependencies": {

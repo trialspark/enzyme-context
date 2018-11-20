@@ -1,8 +1,9 @@
-import { EnzymePlugin } from 'enzyme-context-utils';
+import React from 'react';
+import { EnzymePlugin, ContextWatcher, bindContextToWrapper } from 'enzyme-context-utils';
 import { History, createMemoryHistory, HistoryOptions, MemoryHistoryOptions } from 'history';
-import { RouterContext } from 'react-router';
+import { RouterContext, Router, Route } from 'react-router';
 import { MountRendererProps } from 'enzyme';
-import { RouterContextListener, wrapRoute } from './Utils';
+import { wrapRoute } from './Utils';
 
 export interface RouterPluginMountOptions {
   routerConfig?: HistoryOptions & MemoryHistoryOptions;
@@ -13,7 +14,14 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, History
   options,
 ) => {
   const history = createMemoryHistory(options.routerConfig);
-  const listener = new RouterContextListener(history);
+  const context = new ContextWatcher(
+    Watcher => (
+      <Router history={history}>
+        <Route path="*" component={Watcher} />
+      </Router>
+    ),
+    RouterContext.childContextTypes,
+  );
 
   return {
     node: wrapRoute(node, history),
@@ -21,7 +29,7 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, History
       ...options,
       context: {
         ...options.context,
-        ...listener.context,
+        ...context.value,
       },
       childContextTypes: {
         ...(options as MountRendererProps).childContextTypes,
@@ -29,12 +37,6 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, History
       },
     },
     controller: history,
-    updater: wrapper => {
-      listener.on('contextUpdated', context => {
-        wrapper.setContext(context);
-      });
-
-      return () => listener.destroy();
-    },
+    updater: bindContextToWrapper(context),
   };
 };

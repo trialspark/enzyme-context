@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnzymePlugin, getContextFromProvider } from 'enzyme-context-utils';
+import { EnzymePlugin, ContextWatcher, bindContextToWrapper } from 'enzyme-context-utils';
 import { Store, AnyAction } from 'redux';
 import { Provider } from 'react-redux';
 import { MountRendererProps } from 'enzyme';
@@ -16,12 +16,11 @@ export const reduxContext: <S extends Store>(
   config: ReduxPluginConfig<S>,
 ) => EnzymePlugin<ReduxPluginMountOptions, S> = config => (node, options) => {
   const store = config.createStore();
-  const provider = (
+  const context = new ContextWatcher(Watcher => (
     <Provider store={store}>
-      <div />
+      <Watcher />
     </Provider>
-  );
-  const context = getContextFromProvider(provider);
+  ));
 
   (options.initialActions || []).forEach(action => store.dispatch(action));
 
@@ -32,12 +31,13 @@ export const reduxContext: <S extends Store>(
       ...options,
       context: {
         ...options.context,
-        ...context,
+        ...context.value,
       },
       childContextTypes: {
         ...(options as MountRendererProps).childContextTypes,
-        ...(provider as React.CElement<any, any>).type.childContextTypes,
+        ...(Provider as any).childContextTypes,
       },
     },
+    updater: bindContextToWrapper(context),
   };
 };
