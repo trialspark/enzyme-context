@@ -5,7 +5,7 @@
 - [Motivation](docs/motivation.md)
 - [Official Plugins](docs/official-plugins.md)
   - [Redux](packages/enzyme-context-redux/README.md)
-  - [React Router (v3)](packages/enzyme-context-react-reouter-3/README.md)
+  - [React Router (v3)](packages/enzyme-context-react-router-3/README.md)
   - [React Router (v4)](packages/enzyme-context-react-router-4/README.md)
   - [Apollo](packages/enzyme-context-apollo/README.md)
 - [Authoring Plugins](docs/authoring-plugins.md)
