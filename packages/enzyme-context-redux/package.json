@@ -2,15 +2,20 @@
   "name": "enzyme-context-redux",
   "version": "1.0.0",
   "scripts": {
+    "test": "jest",
     "build": "tsc -b .",
     "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
-    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json"
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json",
+    "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
   },
   "dependencies": {
     "enzyme-context-utils": "^1.0.0"
   },
   "description": "Initialize redux context with enzyme-context",
   "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
   "repository": "https://github.com/trialspark/enzyme-context",
   "author": "TrialSpark, Inc.",
   "license": "MIT",
