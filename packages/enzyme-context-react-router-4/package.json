@@ -2,9 +2,11 @@
   "name": "enzyme-context-react-router-4",
   "version": "1.0.0",
   "scripts": {
+    "test": "jest",
     "build": "tsc -b .",
     "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
-    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json"
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json",
+    "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
   },
   "dependencies": {
     "@types/history": "^4.7.2",
@@ -13,6 +15,9 @@
   },
   "description": "Initialize react-router v4 context with enzyme-context",
   "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
   "repository": "https://github.com/trialspark/enzyme-context",
   "author": "TrialSpark, Inc.",
   "license": "MIT",
