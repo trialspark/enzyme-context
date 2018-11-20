@@ -16,6 +16,7 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, History
   const context = new ContextWatcher(
     Watcher => (
       <Router history={history}>
+        {/* Set path to "*" so that the Watcher component always renders */}
         <Route path="*" component={Watcher} />
       </Router>
     ),

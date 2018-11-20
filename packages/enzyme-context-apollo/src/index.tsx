@@ -35,6 +35,7 @@ export const apolloContext: (
   const schema = makeExecutableSchema(config.schema);
   addMockFunctionsToSchema({
     schema,
+    // Mocks passed at mount-time and config-time are merged together
     mocks: defaultMocks(options.apolloMocks || {}, config.defaultMocks || {}),
     preserveResolvers: true,
   });
