@@ -3,6 +3,7 @@
 - [Introduction](README.md)
 - [Getting Started](docs/getting-started.md)
 - [Motivation](docs/motivation.md)
+- [API](docs/api.md)
 - [Official Plugins](docs/official-plugins.md)
   - [Redux](packages/enzyme-context-redux/README.md)
   - [React Router (v3)](packages/enzyme-context-react-router-3/README.md)
