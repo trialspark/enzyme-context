@@ -6,7 +6,7 @@ This plugin sets up `react-redux` context to test components that are `connect()
 
 ## Installation
 
-1. Setup required peer dependencies: [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), [react-redux](https://react-redux.js.org/docs/introduction/quick-start), and [redux](https://redux.js.org/#installation).
+1. Setup required peer dependencies: [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), [react-redux](https://react-redux.js.org/docs/introduction/quick-start), [react-test-renderer](https://reactjs.org/docs/test-renderer.html), and [redux](https://redux.js.org/#installation).
 
 2. Install via yarn or npm
 

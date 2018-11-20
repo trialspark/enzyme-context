@@ -6,7 +6,7 @@ This plugin sets up the context required for `react-router` (v3) and exposes a `
 
 ## Installation
 
-1. Setup required peer dependencies: [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), [react-dom](https://reactjs.org/docs/react-dom.html), and [react-router v3](https://github.com/ReactTraining/react-router/tree/v3/docs).
+1. Setup required peer dependencies: [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), [react-router v3](https://github.com/ReactTraining/react-router/tree/v3/docs), and [react-test-renderer](https://reactjs.org/docs/test-renderer.html).
 
 2. Install via yarn or npm
 

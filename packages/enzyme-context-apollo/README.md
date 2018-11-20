@@ -6,7 +6,7 @@ This plugin sets up an apollo client with a mock graphql backend to test compone
 
 ## Installation
 
-1. Setup required peer dependencies: [apollo-cache-inmemory](https://github.com/apollographql/apollo-client/tree/master/packages/apollo-cache-inmemory#installation), [apollo-client](https://www.apollographql.com/docs/react/advanced/boost-migration.html#after), [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), and [react-apollo](https://github.com/apollographql/react-apollo#installation).
+1. Setup required peer dependencies: [apollo-cache-inmemory](https://github.com/apollographql/apollo-client/tree/master/packages/apollo-cache-inmemory#installation), [apollo-client](https://www.apollographql.com/docs/react/advanced/boost-migration.html#after), [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), [react-apollo](https://github.com/apollographql/react-apollo#installation), and [react-test-renderer](https://reactjs.org/docs/test-renderer.html).
 
 2. Install via yarn or npm
 

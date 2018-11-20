@@ -2,17 +2,27 @@
 
 The module exports some utilities that improve the ease of authoring `enzyme-context` plugins:
 
-### `getContextFromProvider(provider: React.CElement) => any`
+### `ContextWatcher()`
 
-Given a provider component (one that provides context to its children via `getChildContext()`), return all the context that component provides.
+A class that gets the context of a Provider and notifies listeners when the context changes.
 
 #### Arguments
 
-1. `provider` (`React.CElement`): a react element representing a provider component
+1. `render` (`(WatcherComponent: React.ComponentClass) => React.ReactElement`): a function that accepts a react component as its only argument and must return some JSX that renders that react component as a child of a Provider.
+2. `childContextTypes` (`ValidationMap` ([optional])): the `childContextTypes` of the provider. This argument only needs to be passed if the root component returned by `render` does not define `childContextTypes`.
 
-#### Returns
+#### Attributes
 
-`any`: the context the provider provides to its children
+- `value` (`any`): the context of the provider
+
+#### Methods
+
+- `listen(listener: (context: any) => void)`: registers a listener to be notified of context changes
+
+  - **Arguments**
+    1. `listener`: (`(context: any) => void`): the listener function that will be called with the context whenever it changes
+
+- `stop()`: stops listening for changes and cleans up any mounted components
 
 #### Example
 
@@ -22,10 +32,53 @@ import { Provider } from 'react-redux';
 import { getContextFromProvider } from 'enzyme-context-utils';
 
 const store = createStore(() => ({}));
-const provider = <Provider store={store} />;
-const context = getContextFromProvider(provider);
+const context = new ContextWatcher(Watcher => (
+  <Provider store={store}>
+    <Watcher />
+  </Provider>
+));
 
-expect(context).toEqual({ store });
+expect(context.value).toEqual({ store });
+context.listen(newContext => {
+  // called whenever context changes
+});
+```
+
+### `bindContextToWrapper(context: ContextWatcher) => (wrapper: ReactWrapper | ShallowWrapper) => () => void;`
+
+A utility that binds a `ContextWatcher` to a given enzyme wrapper, updating its context whenever the watcher's context changes.
+
+#### Arguments
+
+1. `context` (`ContextWatcher`): the context to watch
+
+#### Returns
+
+- `(wrapper: ReactWrapper | ShallowWrapper) => () => void`: a function that accepts the enzyme wrapper to bind to
+  - **Arguments**
+    1. `wrapper` (`ReactWrapper | ShallowWrapper`): the enzyme wrapper to bind to
+  - **Returns**: `() => void`: a function that will stop listening for context changes when called
+
+#### Example
+
+This method is useful for setting the `updater` attributes of an `enzyme-context` plugin return:
+
+```javascript
+const myPlugin = (node, options) => {
+  const store = createStore(() => ({}));
+  const context = new ContextWatcher(Watcher => (
+    <Provider store={store}>
+      <Watcher />
+    </Provider>
+  ));
+
+  return {
+    node,
+    options,
+    controller: store,
+    updater: bindContextToWrapper(context),
+  };
+};
 ```
 
 ### `EnzymePlugin<O extends object, C>`
