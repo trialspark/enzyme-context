@@ -53,7 +53,7 @@ describe('MyComponent', () => {
     expect(component.text()).toBe('...');
   });
 
-  it('responses to location changes', () => {
+  it('responds to location changes', () => {
     history.push('/my/new/url');
     component.update();
     expect(component.text()).toBe('...');
