@@ -20,7 +20,7 @@
     "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json",
     "prepublish": "cp ../../README.md ./ && yarn build && yarn check-types && yarn lint && yarn test"
   },
-  "description": "A framework for easily testing react components that rely on context.",
+  "description": "Enzyme Context is a pluggable library which simplifies the process of testing components that rely on react context.",
   "main": "dist/index.js",
   "files": [
     "dist/**"

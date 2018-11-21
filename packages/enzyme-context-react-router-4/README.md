@@ -83,6 +83,8 @@ This plugin also allows some configuration to be passed at mount-time:
 1. `routerConfig` (`Object` [optional]): any of the configuration [options of `history`'s `createMemoryHistory()`](https://github.com/ReactTraining/history#usage). For example, we can set the URL _before_ our component mounts like so:
    ```javascript
    ({ component, history } = mount(<MyComponent />, {
-     initialEntries: ['/my/url'],
+     routerConfig: {
+       initialEntries: ['/my/url'],
+     },
    }));
    ```

@@ -96,6 +96,8 @@ This plugin also allows some configuration to be passed at mount-time:
 
    ```javascript
    ({ component, history } = mount(<MyComponent />, {
-     entries: ['/my/url'],
+     routerConfig: {
+       entries: ['/my/url'],
+     },
    }));
    ```
