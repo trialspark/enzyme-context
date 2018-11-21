@@ -53,22 +53,73 @@ export function executePlugins<P extends EnzymePlugins, O extends GetOptions<any
 }
 
 /**
+ * Keeps track of `updater` functions of the plugins. Calls them on mount(). Calls the
+ * unmounter functions they return on unmount.
+ */
+class LifecycleTracker {
+  private unmounters: ReturnType<UpdaterFns[number]>[] = [];
+
+  constructor(private wrapper: ReactWrapper | ShallowWrapper, private updaters: UpdaterFns) {}
+
+  mount() {
+    this.unmounters = this.updaters.map(updater => updater(this.wrapper));
+  }
+
+  unmount() {
+    this.unmounters.forEach(unmounter => unmounter());
+  }
+}
+
+/**
  * First, calls every plugin's [`updater` function](https://github.com/trialspark/enzyme-context/blob/aa66183f78eb3e80f8712d1aa8a2736307cabe02/docs/authoring-plugins.md#returns). Then, it patches the enzyme ReactWrapper/ShallowWrapper to call every plugin's unmount handler when unount() is called.
  *
  * @param pluginResults the data returned by calling `executePlugins`
  * @param wrapper an enzyme wrapper
  */
-export function patchUnmount<
+export function hookIntoLifecycle<
   PR extends PluginReturns<any, any>,
   W extends ReactWrapper | ShallowWrapper
 >(pluginResults: PR, wrapper: W): void {
   const unmount = wrapper.unmount;
-  const unmounters = pluginResults.updaters.map(updater => updater(wrapper));
+  const mount = wrapper instanceof ReactWrapper ? wrapper.mount : null;
+  const lifecycle = new LifecycleTracker(wrapper, pluginResults.updaters);
 
+  lifecycle.mount();
+
+  /**
+   * This function will replace enzyme's .unmount(). It calls the unmounter functions before
+   * unmounting the enzyme wrapper.
+   */
   function patchedUnmount(this: W) {
-    unmounters.forEach(unmounter => unmounter());
+    const isMounted = this.exists();
+
+    if (isMounted) {
+      lifecycle.unmount();
+    }
+
+    // Call through to enzyme
     return unmount.call(this);
   }
 
+  /**
+   * This function will replace enzyme's .mount(). It calls the updater functions after
+   * mounting the enzyme wrapper.
+   */
+  function patchedMount(this: ReactWrapper) {
+    const wasUnmounted = !this.exists();
+    // Call through to enzyme
+    const result = mount!.call(this);
+
+    if (wasUnmounted) {
+      lifecycle.mount();
+    }
+
+    return result;
+  }
+
   wrapper.unmount = patchedUnmount;
+
+  if (wrapper instanceof ReactWrapper) {
+    wrapper.mount = patchedMount;
+  }
 }

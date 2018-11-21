@@ -1,4 +1,4 @@
-type Listener<V> = (value: V) => void;
+export type Listener<V> = (value: V) => void;
 
 /**
  * A class that keeps track of a single value and notifies listeners when that value changes.
