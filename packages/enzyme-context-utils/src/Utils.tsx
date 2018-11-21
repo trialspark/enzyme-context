@@ -92,12 +92,20 @@ export class ContextWatcher extends ValueWatcher<any> {
  * @param wrapper the enzyme wrapper to bind to
  * @returns a function that will stop listening
  */
-export const bindContextToWrapper = (context: ContextWatcher) => (
-  wrapper: ReactWrapper | ShallowWrapper,
-) => {
-  context.listen(updatedContext => {
-    wrapper.setContext(updatedContext);
-  });
+export const bindContextToWrapper = (context: ContextWatcher) => {
+  const initialContext = context.value;
 
-  return () => context.stop();
+  return (wrapper: ReactWrapper | ShallowWrapper) => {
+    context.listen(updatedContext => {
+      wrapper.setContext(updatedContext);
+    });
+
+    // This means that context changed while the component was mounting; we need to make sure the
+    // wrapper gets updated too.
+    if (context.value !== initialContext) {
+      wrapper.setContext(context.value);
+    }
+
+    return () => context.stop();
+  };
 };
