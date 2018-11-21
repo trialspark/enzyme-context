@@ -14,7 +14,7 @@
 
 - Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
 
-### enzyme-context-apollo (v1.0.3)
+### enzyme-context-apollo (v1.0.2)
 
 - Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
 
@@ -26,11 +26,11 @@
 
 - Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
 
-### enzyme-context-redux (v1.0.3)
+### enzyme-context-redux (v1.0.2)
 
 - Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
 
-### enzyme-context-utils (v1.0.3)
+### enzyme-context-utils (v1.0.1)
 
 - Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
 
