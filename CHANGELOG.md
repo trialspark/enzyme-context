@@ -10,6 +10,8 @@
 
 ### enzyme-context-utils (vNext)
 
+- Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
+
 # enzyme-context (v1.0.2)
 
 - Update package description

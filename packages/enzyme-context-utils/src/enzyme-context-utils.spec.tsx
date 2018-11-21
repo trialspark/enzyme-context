@@ -174,6 +174,7 @@ describe('enzyme-context-utils', () => {
           <Watcher />
         </MyProvider>
       ));
+      const updater = bindContextToWrapper(context);
       wrapper = mount(<DebugComponent />, {
         context: {
           ...context.value,
@@ -182,7 +183,7 @@ describe('enzyme-context-utils', () => {
           ...MyProvider.childContextTypes,
         },
       });
-      unsubscribe = bindContextToWrapper(context)(wrapper);
+      unsubscribe = updater(wrapper);
     });
 
     it('updates the wrapper when the context changes', () => {
@@ -195,6 +196,69 @@ describe('enzyme-context-utils', () => {
       unsubscribe();
       debug.emit('debug', true);
       expect(wrapper.text()).toBe('false');
+    });
+
+    it('updates context if the wrapper changes context on mount', () => {
+      class InstaChangeProvider extends Component {
+        static childContextTypes = {
+          data: PropTypes.shape({ foo: PropTypes.string, bar: PropTypes.string }),
+          getExcited: PropTypes.func,
+        };
+
+        state = {
+          data: {
+            foo: 'hello',
+            bar: 'world',
+          },
+        };
+
+        getChildContext() {
+          return {
+            data: this.state.data,
+            getExcited: () =>
+              this.setState({
+                data: { foo: 'hello!', bar: 'world!' },
+              }),
+          };
+        }
+
+        render() {
+          return this.props.children;
+        }
+      }
+      class Checker extends Component {
+        static contextTypes = InstaChangeProvider.childContextTypes;
+
+        componentDidMount() {
+          this.context.getExcited();
+        }
+
+        render() {
+          return (
+            <div>
+              {this.context.data.foo} {this.context.data.bar}
+            </div>
+          );
+        }
+      }
+      context = new ContextWatcher(Watcher => (
+        <InstaChangeProvider>
+          <Watcher />
+        </InstaChangeProvider>
+      ));
+      const updater = bindContextToWrapper(context);
+      wrapper = mount(<Checker />, {
+        context: {
+          ...context.value,
+        },
+        childContextTypes: {
+          ...InstaChangeProvider.childContextTypes,
+        },
+      });
+      updater(wrapper);
+      wrapper.update();
+
+      expect(wrapper.text()).toBe('hello! world!');
     });
   });
 });
