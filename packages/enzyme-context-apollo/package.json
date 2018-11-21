@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "apollo-link-schema": "^1.1.1",
+    "enzyme-context-utils": "^1.0.0",
     "graphql-tools": "^4.0.3"
   },
   "description": "Initialize react-apollo context with enzyme-context",

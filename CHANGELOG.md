@@ -10,6 +10,28 @@
 
 ### enzyme-context-utils (vNext)
 
+# enzyme-context (v1.0.3)
+
+- Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
+
+### enzyme-context-apollo (v1.0.3)
+
+- Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
+
+### enzyme-context-react-router-3 (v1.0.3)
+
+- Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
+
+### enzyme-context-react-router-4 (v1.0.3)
+
+- Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
+
+### enzyme-context-redux (v1.0.3)
+
+- Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
+
+### enzyme-context-utils (v1.0.3)
+
 - Fix an issue where context that changed immediately on component mount did not update the enzyme wrapper
 
 # enzyme-context (v1.0.2)
