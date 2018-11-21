@@ -1,24 +1,36 @@
 # enzyme-context (vNext)
 
-- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
-
 ### enzyme-context-apollo (vNext)
-
-- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
 
 ### enzyme-context-react-router-3 (vNext)
 
-- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
-
 ### enzyme-context-react-router-4 (vNext)
-
-- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
 
 ### enzyme-context-redux (vNext)
 
+### enzyme-context-utils (vNext)
+
+# enzyme-context (v1.0.4)
+
 - Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
 
-### enzyme-context-utils (vNext)
+### enzyme-context-apollo (v1.0.3)
+
+- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
+
+### enzyme-context-react-router-3 (v1.0.4)
+
+- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
+
+### enzyme-context-react-router-4 (v1.0.4)
+
+- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
+
+### enzyme-context-redux (v1.0.3)
+
+- Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
+
+### enzyme-context-utils (v1.0.2)
 
 - Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
 
