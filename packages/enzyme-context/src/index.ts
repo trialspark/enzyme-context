@@ -8,7 +8,7 @@ import {
   ShallowRendererProps,
 } from 'enzyme';
 import { EnzymePlugins, GetTestObjects, GetOptions } from './Types';
-import { executePlugins, patchUnmount } from './Utils';
+import { executePlugins, hookIntoLifecycle } from './Utils';
 
 /**
  * Creates a specialized enzyme mount() function with context set up.
@@ -31,7 +31,7 @@ export function createMount<P extends EnzymePlugins>(plugins: P) {
     const pluginResults = executePlugins(plugins, node, options || {});
     const component = baseMount(pluginResults.node, pluginResults.options);
 
-    patchUnmount(pluginResults, component);
+    hookIntoLifecycle(pluginResults, component);
 
     return {
       ...(pluginResults.controllers as object),
@@ -69,7 +69,7 @@ export function createShallow<P extends EnzymePlugins>(plugins: P) {
     const pluginResults = executePlugins(plugins, node, options || {});
     const component = baseShallow(pluginResults.node, pluginResults.options);
 
-    patchUnmount(pluginResults, component);
+    hookIntoLifecycle(pluginResults, component);
 
     return {
       ...(pluginResults.controllers as object),

@@ -106,6 +106,21 @@ describe('enzyme-context-utils', () => {
       debug.emit('debug', true);
     });
 
+    it('supports listening again after stopping', () => {
+      watcher.stop();
+      const listener = jest.fn();
+      watcher.listen(listener);
+
+      debug.emit('debug', true);
+      expect(listener).toHaveBeenCalledWith({
+        myStuff: {
+          foo: 'hello',
+          bar: 'world',
+        },
+        debug: true,
+      });
+    });
+
     it('supports passing childContextTypes directly', () => {
       const Wrapper: React.SFC = ({ children }) => {
         return (

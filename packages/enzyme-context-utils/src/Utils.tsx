@@ -1,6 +1,6 @@
 import React, { Component, ComponentClass } from 'react';
 import TestRenderer from 'react-test-renderer';
-import { ValueWatcher } from './ValueWatcher';
+import { ValueWatcher, Listener } from './ValueWatcher';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
 
 /**
@@ -20,7 +20,8 @@ function isComponentElement(element: React.ReactElement<any>): element is React.
  * A class that gets the context of a Provider and notifies listeners when the context changes.
  */
 export class ContextWatcher extends ValueWatcher<any> {
-  private renderer: TestRenderer.ReactTestRenderer;
+  private renderer: TestRenderer.ReactTestRenderer | null;
+  private element: React.ReactElement<any>;
 
   /**
    * @param render a function that accepts a react component as its only argument and must return
@@ -71,14 +72,34 @@ export class ContextWatcher extends ValueWatcher<any> {
       );
     }
 
-    this.renderer = TestRenderer.create(element);
+    this.element = element;
+    this.renderer = TestRenderer.create(this.element);
+  }
+
+  /**
+   * Registers a listener for context changes.
+   *
+   * @param listener the function to be called with the new context when it changes
+   */
+  listen(listener: Listener<any>) {
+    // If we stopped listening previously, set up the context listener component
+    // again.
+    if (!this.renderer) {
+      this.renderer = TestRenderer.create(this.element);
+    }
+
+    return super.listen(listener);
   }
 
   /**
    * Stops listening for context changes.
    */
   stop() {
-    this.renderer.unmount();
+    if (this.renderer) {
+      this.renderer.unmount();
+    }
+
+    this.renderer = null;
 
     return super.stop();
   }

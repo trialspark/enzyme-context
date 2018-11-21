@@ -38,6 +38,16 @@ describe('enzyme-context-react-router-4', () => {
     expect(page().text()).toBe('id is: 1612');
   });
 
+  it('responds to history after the component is remounted', () => {
+    component.unmount();
+    component.mount();
+    expect(page().exists()).toBe(false);
+
+    history.push('/my/url/1612');
+    component.update();
+    expect(page().exists()).toBe(true);
+  });
+
   it('allows configuration to be passed', () => {
     const mount = createMount({
       history: routerContext(),

@@ -152,6 +152,37 @@ describe('enzyme-context', () => {
         expect(component.exists()).toBe(false);
         expect(pluginA.unmounter).toHaveBeenCalled();
       });
+
+      it('does nothing if mount() is called when the component is already mounted', () => {
+        pluginA.updater.mockClear();
+        component.mount();
+        expect(pluginA.updater).not.toHaveBeenCalled();
+      });
+
+      it('calls the plugin updaters again if the component is unmounted and then mounted', () => {
+        pluginA.updater.mockClear();
+        const unmounter = jest.fn();
+        pluginA.updater.mockReturnValue(unmounter);
+
+        component.unmount();
+        pluginA.unmounter.mockClear();
+        expect(pluginA.updater).not.toHaveBeenCalled();
+        component.mount();
+        expect(pluginA.updater).toHaveBeenCalledWith(component);
+
+        expect(unmounter).not.toHaveBeenCalled();
+        component.unmount();
+        try {
+          component.unmount();
+        } catch (e) {}
+        expect(pluginA.unmounter).not.toHaveBeenCalled();
+        expect(unmounter).toHaveBeenCalledTimes(1);
+
+        pluginA.updater.mockClear();
+        component.mount();
+        component.mount();
+        expect(pluginA.updater).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
