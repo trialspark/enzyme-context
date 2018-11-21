@@ -1,6 +1,6 @@
 {
   "name": "enzyme-context-redux",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "enzyme",
     "react",
@@ -19,7 +19,7 @@
     "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
   },
   "dependencies": {
-    "enzyme-context-utils": "^1.0.0"
+    "enzyme-context-utils": "^1.0.1"
   },
   "description": "Initialize redux context with enzyme-context",
   "main": "dist/index.js",
