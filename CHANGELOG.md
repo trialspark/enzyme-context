@@ -1,20 +1,26 @@
 # enzyme-context (vNext)
 
-- Update package description
-
 ### enzyme-context-apollo (vNext)
 
 ### enzyme-context-react-router-3 (vNext)
 
-- Fixed incorrect example in README
-
 ### enzyme-context-react-router-4 (vNext)
-
-- Fixed incorrect example in README
 
 ### enzyme-context-redux (vNext)
 
 ### enzyme-context-utils (vNext)
+
+# enzyme-context (v1.0.2)
+
+- Update package description
+
+### enzyme-context-react-router-3 (v1.0.2)
+
+- Fixed incorrect example in README
+
+### enzyme-context-react-router-4 (v1.0.2)
+
+- Fixed incorrect example in README
 
 # enzyme-context (v1.0.1)
 
