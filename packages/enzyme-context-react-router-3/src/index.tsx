@@ -1,7 +1,7 @@
 import React from 'react';
 import { EnzymePlugin, ContextWatcher, bindContextToWrapper } from 'enzyme-context-utils';
-import { History, createMemoryHistory, HistoryOptions, MemoryHistoryOptions } from 'history';
-import { RouterContext, Router, Route } from 'react-router';
+import { History, HistoryOptions, MemoryHistoryOptions } from 'history';
+import { RouterContext, Router, Route, createMemoryHistory } from 'react-router';
 import { wrapRoute } from './Utils';
 
 export interface RouterPluginMountOptions {

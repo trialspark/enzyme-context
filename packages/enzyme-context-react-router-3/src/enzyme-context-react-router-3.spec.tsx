@@ -61,4 +61,14 @@ describe('enzyme-context-react-router-3', () => {
     }));
     expect(component.find(Component).exists()).toBe(true);
   });
+
+  it('supports accessing locations query', () => {
+    ({ component } = mount(
+      <Route path="/foo/bar" component={props => <div>{props.location.query.test}</div>} />,
+      {
+        routerConfig: { entries: ['/foo/bar?test=1'] },
+      },
+    ));
+    expect(component.text()).toBe('1');
+  });
 });
