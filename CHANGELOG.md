@@ -10,6 +10,30 @@
 
 ### enzyme-context-utils (vNext)
 
+# enzyme-context
+
+_no changes_
+
+### enzyme-context-apollo
+
+_no changes_
+
+### enzyme-context-react-router-3 (v1.0.5)
+
+- Fix an issue where query params were not being parsed
+
+### enzyme-context-react-router-4
+
+_no changes_
+
+### enzyme-context-redux
+
+_no changes_
+
+### enzyme-context-utils
+
+_no changes_
+
 # enzyme-context (v1.0.4)
 
 - Fix an issue where components would not listen to context changes after going through an unmount()/mount() cycle
