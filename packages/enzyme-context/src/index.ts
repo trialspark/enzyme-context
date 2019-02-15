@@ -7,8 +7,10 @@ import {
   MountRendererProps,
   ShallowRendererProps,
 } from 'enzyme';
-import { EnzymePlugins, GetTestObjects, GetOptions } from './Types';
-import { executePlugins, hookIntoLifecycle } from './Utils';
+import { EnzymePlugins, GetContextWrapper, GetOptions } from './Types';
+import { executePlugins, hookIntoLifecycle, decorateEnzymeWrapper } from './Utils';
+
+export { GetContextWrapper, GetOptions };
 
 /**
  * Creates a specialized enzyme mount() function with context set up.
@@ -17,7 +19,7 @@ import { executePlugins, hookIntoLifecycle } from './Utils';
  */
 export function createMount<P extends EnzymePlugins>(plugins: P) {
   // The values returned are a function of the enzyme ReactWrapper and the supplied plugins
-  type TestObjects<RW> = GetTestObjects<RW, P>;
+  type TestObjects<RW> = GetContextWrapper<RW, P>;
   // The options accepted are a function of the enzyme options and the supplied plugins
   type Options = GetOptions<MountRendererProps, P>;
 
@@ -29,14 +31,13 @@ export function createMount<P extends EnzymePlugins>(plugins: P) {
   function mount<P>(node: ReactElement<P>, options?: Options): TestObjects<ReactWrapper<P, any>>;
   function mount<P, S>(node: ReactElement<P>, options?: Options): TestObjects<ReactWrapper<P, S>> {
     const pluginResults = executePlugins(plugins, node, options || {});
-    const component = baseMount(pluginResults.node, pluginResults.options);
+    const component = baseMount(pluginResults.node, pluginResults.options) as TestObjects<
+      ReactWrapper<any, any, any>
+    >;
 
     hookIntoLifecycle(pluginResults, component);
 
-    return {
-      ...(pluginResults.controllers as object),
-      component,
-    } as TestObjects<any>;
+    return decorateEnzymeWrapper(component, pluginResults);
   }
 
   return mount;
@@ -49,7 +50,7 @@ export function createMount<P extends EnzymePlugins>(plugins: P) {
  */
 export function createShallow<P extends EnzymePlugins>(plugins: P) {
   // The values returned are a function of the enzyme ShallowWrapper and the supplied plugins
-  type TestObjects<SW> = GetTestObjects<SW, P>;
+  type TestObjects<SW> = GetContextWrapper<SW, P>;
   // The options accepted are a function of the enzyme options and the supplied plugins
   type Options = GetOptions<ShallowRendererProps, P>;
 
@@ -67,14 +68,13 @@ export function createShallow<P extends EnzymePlugins>(plugins: P) {
     options?: Options,
   ): TestObjects<ShallowWrapper<P, S>> {
     const pluginResults = executePlugins(plugins, node, options || {});
-    const component = baseShallow(pluginResults.node, pluginResults.options);
+    const component = baseShallow(pluginResults.node, pluginResults.options) as TestObjects<
+      ShallowWrapper<any, any, any>
+    >;
 
     hookIntoLifecycle(pluginResults, component);
 
-    return {
-      ...(pluginResults.controllers as object),
-      component,
-    } as TestObjects<any>;
+    return decorateEnzymeWrapper(component, pluginResults);
   }
 
   return shallow;

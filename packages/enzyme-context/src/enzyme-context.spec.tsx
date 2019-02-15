@@ -2,7 +2,9 @@ import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
 import { EnzymePlugin } from 'enzyme-context-utils';
-import { createMount, createShallow } from '.';
+import { createMount, createShallow, GetContextWrapper } from '.';
+
+jest.mock('once', () => (fn: (...args: any[]) => any) => (...args: any[]) => fn(...args));
 
 type MyComponentProps = { foo: string; bar: string };
 const MyComponent: React.SFC<MyComponentProps> = () => {
@@ -88,12 +90,20 @@ const createPluginB = () => {
 };
 
 describe('enzyme-context', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // tslint:disable-next-line no-console
+    (console.warn as jest.Mock).mockRestore();
+  });
   describe('createMount()', () => {
-    let component: ReactWrapper<MyComponentProps>;
+    let component: GetContextWrapper<ReactWrapper<MyComponentProps>, {}>;
 
     beforeEach(() => {
       const mount = createMount({});
-      ({ component } = mount(<MyComponent foo="hello" bar="world" />));
+      component = mount(<MyComponent foo="hello" bar="world" />);
     });
 
     it('mounts the component using enzyme', () => {
@@ -103,11 +113,15 @@ describe('enzyme-context', () => {
     });
 
     describe('with plugins', () => {
-      let component: ReactWrapper<{}, {}, ContextualComponent>;
+      let component: GetContextWrapper<
+        ReactWrapper<{}, {}, ContextualComponent>,
+        {
+          a: EnzymePlugin<PluginAOptions, ControllerA>;
+          b: EnzymePlugin<PluginBOptions, ControllerB>;
+        }
+      >;
       let pluginA: ReturnType<typeof createPluginA>;
       let pluginB: ReturnType<typeof createPluginB>;
-      let a: ControllerA;
-      let b: ControllerB;
 
       beforeEach(() => {
         pluginA = createPluginA();
@@ -117,24 +131,60 @@ describe('enzyme-context', () => {
           a: pluginA.plugin,
           b: pluginB.plugin,
         });
-        ({ component, a, b } = mount(<ContextualComponent />, {
+        component = mount(<ContextualComponent />, {
           name: 'Julie',
           age: 40,
-        }));
+        });
       });
 
       it('mounts the component', () => {
         expect(component.type()).toBe(ContextualComponent);
       });
 
-      it("merges in the plugin's options", () => {
+      it('can be used via destructuring', () => {
+        let component: ReactWrapper<{}, {}, ContextualComponent>;
+        let a: ControllerA;
+        let b: ControllerB;
+        const mount = createMount({
+          a: pluginA.plugin,
+          b: pluginB.plugin,
+        });
+        const warn = jest.spyOn(console, 'warn').mockReturnValue(undefined);
+        warn.mockClear();
+        ({ component, a, b } = mount(<ContextualComponent />, {
+          name: 'Julie',
+          age: 40,
+        }));
+        expect(component.exists()).toBe(true);
         expect(component.instance().controllerA).toBe(a);
         expect(component.instance().controllerB).toBe(b);
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls[0]).toMatchInlineSnapshot(`
+Array [
+  "Accessing the \`component\` attribute of the object \`mount()\` and \`shallow()\`
+returns is deprecated and will be removed in the next major release. Enzyme-Context
+\`mount()\` and \`shallow()\` now return an enzyme wrapper instead of an object with
+a \`component\` attribute.
+
+Before:
+  const { component, store, history } = mount(<MyComponent />);
+
+After:
+  const component = mount(<MyComponent />);
+  component.store;
+  component.history;",
+]
+`);
+      });
+
+      it("merges in the plugin's options", () => {
+        expect(component.instance().controllerA).toBe(component.a);
+        expect(component.instance().controllerB).toBe(component.b);
       });
 
       it('returns controllers', () => {
-        expect(a.sayHello()).toBe('Hello Julie!');
-        expect(b.sayHappyBirthday()).toBe('Happy 40th birthday!');
+        expect(component.a.sayHello()).toBe('Hello Julie!');
+        expect(component.b.sayHappyBirthday()).toBe('Happy 40th birthday!');
       });
 
       it('allows node decoration', () => {
@@ -187,11 +237,11 @@ describe('enzyme-context', () => {
   });
 
   describe('makeShallow()', () => {
-    let component: ShallowWrapper;
+    let component: GetContextWrapper<ShallowWrapper, {}>;
 
     beforeEach(() => {
       const shallow = createShallow({});
-      ({ component } = shallow(<MyComponent foo="hello" bar="world" />));
+      component = shallow(<MyComponent foo="hello" bar="world" />);
     });
 
     it('shallow renders the component', () => {
@@ -200,11 +250,15 @@ describe('enzyme-context', () => {
     });
 
     describe('with plugins', () => {
-      let component: ShallowWrapper<{}, {}, ContextualComponent>;
+      let component: GetContextWrapper<
+        ShallowWrapper<{}, {}, ContextualComponent>,
+        {
+          a: EnzymePlugin<PluginAOptions, ControllerA>;
+          b: EnzymePlugin<PluginBOptions, ControllerB>;
+        }
+      >;
       let pluginA: ReturnType<typeof createPluginA>;
       let pluginB: ReturnType<typeof createPluginB>;
-      let a: ControllerA;
-      let b: ControllerB;
 
       beforeEach(() => {
         pluginA = createPluginA();
@@ -214,20 +268,56 @@ describe('enzyme-context', () => {
           a: pluginA.plugin,
           b: pluginB.plugin,
         });
+        component = shallow(<ContextualComponent />, {
+          name: 'Julie',
+          age: 40,
+        });
+      });
+
+      it("merges in the plugin's options", () => {
+        expect(component.instance().controllerA).toBe(component.a);
+        expect(component.instance().controllerB).toBe(component.b);
+      });
+
+      it('can be used via destructuring', () => {
+        let component: ShallowWrapper<{}, {}, ContextualComponent>;
+        let a: ControllerA;
+        let b: ControllerB;
+        const shallow = createShallow({
+          a: pluginA.plugin,
+          b: pluginB.plugin,
+        });
+        const warn = jest.spyOn(console, 'warn').mockReturnValue(undefined);
+        warn.mockClear();
         ({ component, a, b } = shallow(<ContextualComponent />, {
           name: 'Julie',
           age: 40,
         }));
-      });
-
-      it("merges in the plugin's options", () => {
+        expect(component.exists()).toBe(true);
         expect(component.instance().controllerA).toBe(a);
         expect(component.instance().controllerB).toBe(b);
+        expect(warn).toHaveBeenCalledTimes(1);
+        expect(warn.mock.calls[0]).toMatchInlineSnapshot(`
+Array [
+  "Accessing the \`component\` attribute of the object \`mount()\` and \`shallow()\`
+returns is deprecated and will be removed in the next major release. Enzyme-Context
+\`mount()\` and \`shallow()\` now return an enzyme wrapper instead of an object with
+a \`component\` attribute.
+
+Before:
+  const { component, store, history } = mount(<MyComponent />);
+
+After:
+  const component = mount(<MyComponent />);
+  component.store;
+  component.history;",
+]
+`);
       });
 
       it('returns controllers', () => {
-        expect(a.sayHello()).toBe('Hello Julie!');
-        expect(b.sayHappyBirthday()).toBe('Happy 40th birthday!');
+        expect(component.a.sayHello()).toBe('Hello Julie!');
+        expect(component.b.sayHappyBirthday()).toBe('Happy 40th birthday!');
       });
 
       it('allows node decoration', () => {

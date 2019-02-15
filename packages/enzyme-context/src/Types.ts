@@ -12,9 +12,10 @@ export type GetControllers<P extends EnzymePlugins> = {
   [PluginName in keyof P]: ReturnType<P[PluginName]>['controller']
 };
 
-export type GetTestObjects<EW, P extends EnzymePlugins> = {
-  component: EW;
-} & GetControllers<P>;
+export type GetContextWrapper<EW, P extends EnzymePlugins> = EW &
+  GetControllers<P> & {
+    component: EW;
+  };
 
 export type GetOptions<RP, P extends EnzymePlugins> = RP &
   { [PluginName in keyof P]: SecondArgument<P[PluginName]> }[keyof P];

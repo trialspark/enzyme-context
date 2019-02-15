@@ -13,11 +13,11 @@ function MyComponent(props) {
   );
 }
 
-const component = mount(<MyComponent company="TrialSpark" years={2} />);
-expect(component.text()).toBe('I have worked at TrialSpark for 2 years.');
+const wrapper = mount(<MyComponent company="TrialSpark" years={2} />);
+expect(wrapper.text()).toBe('I have worked at TrialSpark for 2 years.');
 
-component.setProps({ company: 'Facebook', years: 0 });
-expect(component.text()).toBe('I have worked at Facebook for 0 years.');
+wrapper.setProps({ company: 'Facebook', years: 0 });
+expect(wrapper.text()).toBe('I have worked at Facebook for 0 years.');
 ```
 
 **Wrong!** And there's a _single_ react feature we can blame for this: context. Context allows components to provide data that _all_ its ancestors access _without_ passing that data down as props. In practice, this is a helpful feature, and it powers some of the most popular libraries out there today: `react-redux`, `react-router`, `react-apollo`, to just name a few.
@@ -34,7 +34,7 @@ const mapStateToProps = state => ({
 MyComponent = connect(mapStateToProps)(MyComponent);
 
 // Error: store missing in context
-const component = mount(<MyComponent />);
+const wrapper = mount(<MyComponent />);
 ```
 
 One common way to solve this problem is to render your component inside of a provider:
@@ -43,7 +43,7 @@ One common way to solve this problem is to render your component inside of a pro
 import { Provider } from 'react-redux';
 import store from './myStore';
 
-const component = mount(
+const wrapper = mount(
   <Provider store={store}>
     <MyComponent />
   </Provider>,
@@ -53,9 +53,9 @@ const component = mount(
 However, this doesn't play very nicely with enzyme:
 
 ```javascript
-component.type(); // Provider, not MyComponent
-component.setProps({}); // Setting props on the Provider, not MyComponent
-component.instance(); // Instance of Provider, not MyComponent
+wrapper.type(); // Provider, not MyComponent
+wrapper.setProps({}); // Setting props on the Provider, not MyComponent
+wrapper.instance(); // Instance of Provider, not MyComponent
 ```
 
 Thankfully, `enzyme` allows us to pass context to our components when we mount this:
@@ -65,7 +65,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import store from './myStore';
 
-const component = mount(<MyComponent />, {
+const wrapper = mount(<MyComponent />, {
   context: {
     store,
   },
@@ -74,7 +74,7 @@ const component = mount(<MyComponent />, {
   },
 });
 
-component.type(); // MyComponent
+wrapper.type(); // MyComponent
 ```
 
 ## The problems with passing context to enzyme

@@ -38,18 +38,17 @@ import { Route } from 'react-router-dom';
 import MyComponent from './MyComponent';
 
 describe('<MyComponent />', () => {
-  let component;
-  let history;
+  let wrapper;
 
   beforeEach(() => {
-    ({ component, history } = mount(<Route path="/my/path" component={MyComponent} />));
+    wrapper = mount(<Route path="/my/path" component={MyComponent} />);
   });
 
   it('renders when active', () => {
-    expect(component.find(MyComponent).exists()).toBe(false);
-    history.push('/my/path');
-    component.update();
-    expect(component.find(MyComponent).exists()).toBe(true);
+    expect(wrapper.find(MyComponent).exists()).toBe(false);
+    wrapper.history.push('/my/path');
+    wrapper.update();
+    expect(wrapper.find(MyComponent).exists()).toBe(true);
   });
 });
 ```
@@ -82,9 +81,9 @@ This plugin also allows some configuration to be passed at mount-time:
 
 1. `routerConfig` (`Object` [optional]): any of the configuration [options of `history`'s `createMemoryHistory()`](https://github.com/ReactTraining/history#usage). For example, we can set the URL _before_ our component mounts like so:
    ```javascript
-   ({ component, history } = mount(<MyComponent />, {
+   const wrapper = mount(<MyComponent />, {
      routerConfig: {
        initialEntries: ['/my/url'],
      },
-   }));
+   });
    ```

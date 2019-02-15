@@ -55,22 +55,21 @@ import { mount } from './test-utils/enzyme'; // import the mount created with en
 import MyComponent from './MyComponent';
 
 describe('<MyComponent />', () => {
-  let component;
-  let client;
+  let wrapper;
 
   beforeEach(async () => {
-    ({ component, store } = mount(<MyComponent />));
+    wrapper = mount(<MyComponent />);
     // Reseting the apollo store does two things:
     //  1. Abort any in-flight requests that may have been leftover from the last spec
     //  2. Return a Promise that allows us to deterministically wait until all of our
     //     component's queries have loaded before proceeding with our tests.
-    await client.resetStore();
+    await wrapper.client.resetStore();
     // Update the Enzyme wrapper after the queries have loaded
-    component.update();
+    wrapper.update();
   });
 
   it('renders data from an apollo query', () => {
-    expect(component.text()).toContain('Viewer: Joe Dart');
+    expect(wrapper.text()).toContain('Viewer: Joe Dart');
   });
 });
 ```
@@ -150,7 +149,7 @@ This plugin also allows some configuration to be passed at mount-time:
 1. `apolloMocks` (`IMocks` [optional]): resolvers for the mock graphql backend. These objects are the same as the ones outlined in the [Customizing mocks section of `graphql-tools`'s docs](https://www.apollographql.com/docs/graphql-tools/mocking.html#Customizing-mocks). The mocks defined here will be deeply merged with the ones defined at plugin configuration time.
    - Example:
      ```javascript
-     ({ component, client } = mount(<MyComponent />, {
+     const wrapper = mount(<MyComponent />, {
        apolloMocks: {
          Query: () => ({
            viewer: () => ({
@@ -160,5 +159,5 @@ This plugin also allows some configuration to be passed at mount-time:
            }),
          }),
        },
-     }));
+     });
      ```

@@ -1,9 +1,8 @@
 import React from 'react';
-import { createMount } from 'enzyme-context';
+import { createMount, GetContextWrapper } from 'enzyme-context';
 import { ReactWrapper } from 'enzyme';
 import { RouteComponentProps } from 'react-router';
 import { Route } from 'react-router-dom';
-import { MemoryHistory } from 'history';
 import { routerContext } from '.';
 
 const MyComponent: React.SFC<RouteComponentProps<{ id: string }>> = props => {
@@ -11,8 +10,11 @@ const MyComponent: React.SFC<RouteComponentProps<{ id: string }>> = props => {
 };
 
 describe('enzyme-context-react-router-4', () => {
-  let component: ReactWrapper;
-  let history: MemoryHistory;
+  let component: GetContextWrapper<ReactWrapper, Plugins>;
+
+  type Plugins = {
+    history: ReturnType<typeof routerContext>;
+  };
 
   const page = () => component.find(MyComponent);
 
@@ -20,7 +22,7 @@ describe('enzyme-context-react-router-4', () => {
     const mount = createMount({
       history: routerContext(),
     });
-    ({ component, history } = mount(<Route path="/my/url/:id" component={MyComponent} />));
+    component = mount(<Route path="/my/url/:id" component={MyComponent} />);
   });
 
   afterEach(() => {
@@ -33,7 +35,7 @@ describe('enzyme-context-react-router-4', () => {
 
   it('returns history as a controller', () => {
     expect(page().exists()).toBe(false);
-    history.push('/my/url/1612');
+    component.history.push('/my/url/1612');
     component.update();
     expect(page().text()).toBe('id is: 1612');
   });
@@ -43,7 +45,7 @@ describe('enzyme-context-react-router-4', () => {
     component.mount();
     expect(page().exists()).toBe(false);
 
-    history.push('/my/url/1612');
+    component.history.push('/my/url/1612');
     component.update();
     expect(page().exists()).toBe(true);
   });
@@ -52,11 +54,11 @@ describe('enzyme-context-react-router-4', () => {
     const mount = createMount({
       history: routerContext(),
     });
-    ({ component } = mount(<Route path="/my/url/:id" component={MyComponent} />, {
+    component = mount(<Route path="/my/url/:id" component={MyComponent} />, {
       routerConfig: {
         initialEntries: ['/my/url/44'],
       },
-    }));
+    });
     expect(page().text()).toBe('id is: 44');
   });
 });
