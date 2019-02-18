@@ -34,12 +34,11 @@ import { mount } from 'test-utils/enzyme';
 import MyComponent from './MyComponent';
 
 describe('<MyComponent />', () => {
-  let component;
+  let wrapper;
 
   beforeEach(() => {
-    // mount returns an object with:
-    //   - component: the mounted enzyme wrapper
-    ({ component } = mount(<MyComponent />));
+    // shallow()/mount() your component like usual!
+    wrapper = mount(<MyComponent />);
   });
 });
 ```

@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 import { EnzymePlugin } from 'enzyme-context-utils';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
+import once from 'once';
 import merge from 'lodash.merge';
-import { EnzymePlugins, GetOptions, GetControllers } from './Types';
+import { EnzymePlugins, GetOptions, GetControllers, GetContextWrapper } from './Types';
 
 type UpdaterFns = NonNullable<ReturnType<EnzymePlugin<any, any>>['updater']>[];
 
@@ -122,4 +123,46 @@ export function hookIntoLifecycle<
   if (wrapper instanceof ReactWrapper) {
     wrapper.mount = patchedMount;
   }
+}
+
+const warnAboutAccessingComponent = once(() => {
+  /* tslint:disable no-console */
+  console.warn(
+    `
+Accessing the \`component\` attribute of the object \`mount()\` and \`shallow()\`
+returns is deprecated and will be removed in the next major release. Enzyme-Context
+\`mount()\` and \`shallow()\` now return an enzyme wrapper instead of an object with
+a \`component\` attribute.
+
+Before:
+  const { component, store, history } = mount(<MyComponent />);
+
+After:
+  const component = mount(<MyComponent />);
+  component.store;
+  component.history;
+    `.trim(),
+  );
+});
+
+/**
+ * Adds all of the plugins' controllers as attributes of the Enzyme wrapper.
+ * It also adds the deprecated `controller` attribute, but logs to tell the user
+ * it is deprecated.
+ *
+ * @param wrapper The `ReactWrapper` or `ShallowWrapper` to decorate
+ * @param plugins All the executed plugins
+ */
+export function decorateEnzymeWrapper<
+  EW extends ReactWrapper<any, any, any> | ShallowWrapper<any, any, any>,
+  P extends EnzymePlugins
+>(wrapper: EW, plugins: PluginReturns<P, any>): GetContextWrapper<EW, P> {
+  return Object.defineProperties(Object.assign(wrapper, plugins.controllers), {
+    component: {
+      get: () => {
+        warnAboutAccessingComponent();
+        return wrapper;
+      },
+    },
+  });
 }

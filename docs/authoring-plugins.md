@@ -16,7 +16,7 @@ Creating a plugin for `enzyme-context` is relatively straightforward because an 
 - An Object with the following attributes
 
   - `node` (`React.ReactElement`): the react element to mount
-  - `controller` (`any`): the object this component wants `mount`/`shallow` to return along with the enzyme wrapper. For example:
+  - `controller` (`any`): the object this plugin wants to attach to the Enzyme wrapper. For example:
 
     ```javascript
     class Person {
@@ -38,9 +38,9 @@ Creating a plugin for `enzyme-context` is relatively straightforward because an 
     const mount = createMount({
       p: myPlugin,
     });
-    const { component, p } = mount(<MyComponent />);
+    const wrapper = mount(<MyComponent />);
 
-    p.sayHello();
+    wrapper.p.sayHello();
     ```
 
   - `options` (`Object`): options to feed into `mount()`/`enzyme()`. This is how plugins provide context. For example:
@@ -68,9 +68,9 @@ Creating a plugin for `enzyme-context` is relatively straightforward because an 
     }
     MyComponent.childContextTypes = { person: PropTypes.instanceOf(Person) };
 
-    const { component } = mount(<MyComponent />);
+    const wrapper = mount(<MyComponent />);
 
-    component.find('button').simulate('click');
+    wrapper.find('button').simulate('click');
     ```
 
   - `updater` (`(wrapper: ReactWrapper | ShallowWrapper) => () => void` [optional]): This function will be called immediately after the enzyme wrapper is created. It can be used to setup listeners that update the wrapper after it has been created. For example, if our plugin was supplying context that contained a list of all the `window.postMessage` events we've received, we could do something like this:

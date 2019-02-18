@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import gql from 'graphql-tag';
-import { ReactWrapper } from 'enzyme';
-import { createMount } from 'enzyme-context';
+import { ReactWrapper, MountRendererProps } from 'enzyme';
+import { createMount, GetContextWrapper, GetOptions } from 'enzyme-context';
 import { makeExecutableSchema } from 'graphql-tools';
 import { getIntrospectionQuery, execute, parse, IntrospectionQuery } from 'graphql';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { ApolloClient } from 'apollo-client';
 import { Query } from 'react-apollo';
 import { apolloContext } from '.';
 
@@ -58,9 +57,15 @@ const MyComponent: React.SFC = () => {
 };
 
 describe('enzyme-context-apollo', () => {
-  let mount: ReturnType<typeof createMount>;
-  let component: ReactWrapper;
-  let client: ApolloClient<any>;
+  let mount: (
+    node: ReactElement<any>,
+    options?: GetOptions<MountRendererProps, Plugins>,
+  ) => GetContextWrapper<ReactWrapper, Plugins>;
+  let component: GetContextWrapper<ReactWrapper, Plugins>;
+
+  type Plugins = {
+    client: ReturnType<typeof apolloContext>;
+  };
 
   beforeEach(async () => {
     const introspectionQuery = getIntrospectionQuery();
@@ -95,8 +100,8 @@ describe('enzyme-context-apollo', () => {
       }),
     });
     mount = _mount;
-    ({ component, client } = mount(<MyComponent />));
-    await client.resetStore();
+    component = mount(<MyComponent />);
+    await component.client.resetStore();
     component.update();
   });
 
@@ -107,7 +112,7 @@ describe('enzyme-context-apollo', () => {
   });
 
   it('supports overriding the default mocks', async () => {
-    ({ component, client } = mount(<MyComponent />, {
+    component = mount(<MyComponent />, {
       apolloMocks: {
         Query: () => ({
           company: () => ({
@@ -116,8 +121,8 @@ describe('enzyme-context-apollo', () => {
           }),
         }),
       },
-    }));
-    await client.resetStore();
+    });
+    await component.client.resetStore();
     component.update();
     expect(component.text()).toContain('Street: 45 West 11th');
     expect(component.text()).toContain('Company: Cool Co.');

@@ -39,17 +39,16 @@ import { mount } from './test-utils/enzyme'; // import the mount created with en
 import MyComponent from './MyComponent';
 
 describe('<MyComponent />', () => {
-  let component;
-  let store;
+  let wrapper;
 
   beforeEach(() => {
-    ({ component, store } = mount(<MyComponent />));
+    wrapper = mount(<MyComponent />);
   });
 
   it('responds to state updates', () => {
-    store.dispatch({ type: 'MY_ACTION' });
-    component.update();
-    expect(component.text()).toBe('...');
+    wrapper.store.dispatch({ type: 'MY_ACTION' });
+    wrapper.update();
+    expect(wrapper.text()).toBe('...');
   });
 });
 ```
@@ -91,7 +90,7 @@ This plugin also allows some configuration to be passed at mount-time:
 1. `initialActions` (`Action[]` [optional]): an array of initial actions to be dispatched _before_ the component is mounted. Useful to get the redux state into a desired form before the component initializes.
    - Example:
      ```javascript
-     ({ component, store } = mount(<MyComponent />, {
+     const wrapper = mount(<MyComponent />, {
        initialActions: [{ type: 'MY_ACTION' }],
-     }));
+     });
      ```

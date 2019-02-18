@@ -1,9 +1,9 @@
-import React from 'react';
-import { createMount } from 'enzyme-context';
-import { ReactWrapper } from 'enzyme';
-import { History } from 'history';
+import React, { ReactElement } from 'react';
+import { createMount, GetContextWrapper } from 'enzyme-context';
+import { ReactWrapper, MountRendererProps } from 'enzyme';
 import { withRouter, WithRouterProps, Route } from 'react-router';
 import { routerContext } from '.';
+import { GetOptions } from 'enzyme-context/src';
 
 const Component: React.SFC<WithRouterProps> = props => {
   return <div>Path is: {props.location.pathname}</div>;
@@ -11,9 +11,15 @@ const Component: React.SFC<WithRouterProps> = props => {
 const ComponentWithRouter = withRouter<{}>(Component);
 
 describe('enzyme-context-react-router-3', () => {
-  let mount: ReturnType<typeof createMount>;
-  let history: History;
-  let component: ReactWrapper;
+  let mount: (
+    node: ReactElement<any>,
+    options?: GetOptions<MountRendererProps, Plugins>,
+  ) => GetContextWrapper<ReactWrapper, Plugins>;
+  let component: GetContextWrapper<ReactWrapper, Plugins>;
+
+  type Plugins = {
+    history: ReturnType<typeof routerContext>;
+  };
 
   beforeEach(() => {
     const _mount = createMount({
@@ -22,7 +28,7 @@ describe('enzyme-context-react-router-3', () => {
 
     mount = _mount;
 
-    ({ component, history } = _mount(<ComponentWithRouter />));
+    component = _mount(<ComponentWithRouter />);
   });
 
   afterEach(() => {
@@ -35,40 +41,40 @@ describe('enzyme-context-react-router-3', () => {
   });
 
   it('responds to changing routes', () => {
-    history.push('/foo/bar');
+    component.history.push('/foo/bar');
     component.update();
     expect(component.text()).toBe('Path is: /foo/bar');
 
-    history.push('/bar/baz');
+    component.history.push('/bar/baz');
     component.update();
     expect(component.text()).toBe('Path is: /bar/baz');
   });
 
   it('supports rendering a <Route /> directly', () => {
-    ({ component, history } = mount(<Route path="/foo/bar" component={Component} />));
+    component = mount(<Route path="/foo/bar" component={Component} />);
 
     expect(component.exists()).toBe(true);
     expect(component.find(Component).exists()).toBe(false);
 
-    history.push('/foo/bar');
+    component.history.push('/foo/bar');
     component.update();
     expect(component.find(Component).exists()).toBe(true);
   });
 
   it('allows memory history options to be passed', () => {
-    ({ component } = mount(<Route path="/foo/bar" component={Component} />, {
+    component = mount(<Route path="/foo/bar" component={Component} />, {
       routerConfig: { entries: ['/foo/bar'] },
-    }));
+    });
     expect(component.find(Component).exists()).toBe(true);
   });
 
   it('supports accessing locations query', () => {
-    ({ component } = mount(
+    component = mount(
       <Route path="/foo/bar" component={props => <div>{props.location.query.test}</div>} />,
       {
         routerConfig: { entries: ['/foo/bar?test=1'] },
       },
-    ));
+    );
     expect(component.text()).toBe('1');
   });
 });

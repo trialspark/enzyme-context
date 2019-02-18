@@ -1,7 +1,7 @@
 import React from 'react';
-import { createMount } from 'enzyme-context';
+import { createMount, GetContextWrapper } from 'enzyme-context';
 import { ReactWrapper } from 'enzyme';
-import { createStore, Reducer, Store, ActionCreator, Action } from 'redux';
+import { createStore, Reducer, ActionCreator, Action } from 'redux';
 import { connect, MapStateToProps } from 'react-redux';
 import { reduxContext } from '.';
 
@@ -54,8 +54,11 @@ const reducer: Reducer<ReduxState, SetDebugAction> = (
 };
 
 describe('enzyme-context-redux', () => {
-  let component: ReactWrapper;
-  let store: Store<ReduxState>;
+  let component: GetContextWrapper<ReactWrapper, Plugins>;
+
+  type Plugins = {
+    store: ReturnType<typeof reduxContext>;
+  };
 
   beforeEach(() => {
     const mount = createMount({
@@ -63,7 +66,7 @@ describe('enzyme-context-redux', () => {
         createStore: () => createStore<ReduxState, any, {}, {}>(reducer),
       }),
     });
-    ({ component, store } = mount(<ConnectedComponent />));
+    component = mount(<ConnectedComponent />);
   });
 
   it('renders the component', () => {
@@ -72,7 +75,7 @@ describe('enzyme-context-redux', () => {
   });
 
   it('returns the store as a controller', () => {
-    store.dispatch(setDebug(true));
+    component.store.dispatch(setDebug(true));
     component.update();
     expect(component.text()).toBe('debug is: true');
   });
@@ -83,9 +86,9 @@ describe('enzyme-context-redux', () => {
         createStore: () => createStore<ReduxState, any, {}, {}>(reducer),
       }),
     });
-    ({ component } = mount(<ConnectedComponent />, {
+    component = mount(<ConnectedComponent />, {
       initialActions: [setDebug(true)],
-    }));
+    });
     expect(component.text()).toBe('debug is: true');
   });
 });
