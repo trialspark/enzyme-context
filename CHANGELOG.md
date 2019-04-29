@@ -1,24 +1,38 @@
 # enzyme-context (vNext)
 
-- Change enzyme-context's `mount()` and `shallow()` functions to return a `ReactWrapper` and `ShallowWrapper` instead of an object. Plugin controllers are then attached directly to the returned Enzyme wrapper. To maintain backwards-compatibility with previous versions of enzyme-context a `component` attribute is also attached to the wrapper that just references itself.
-
 ### enzyme-context-apollo (vNext)
-
-- Update docs to reflect new enzyme-context API
 
 ### enzyme-context-react-router-3 (vNext)
 
-- Update docs to reflect new enzyme-context API
-
 ### enzyme-context-react-router-4 (vNext)
-
-- Update docs to reflect new enzyme-context API
 
 ### enzyme-context-redux (vNext)
 
+### enzyme-context-utils (vNext)
+
+# enzyme-context (v1.1.0)
+
+- Change enzyme-context's `mount()` and `shallow()` functions to return a `ReactWrapper` and `ShallowWrapper` instead of an object. Plugin controllers are then attached directly to the returned Enzyme wrapper. To maintain backwards-compatibility with previous versions of enzyme-context a `component` attribute is also attached to the wrapper that just references itself.
+
+### enzyme-context-apollo (v1.1.0)
+
 - Update docs to reflect new enzyme-context API
 
-### enzyme-context-utils (vNext)
+### enzyme-context-react-router-3 (v1.1.0)
+
+- Update docs to reflect new enzyme-context API
+
+### enzyme-context-react-router-4 (v1.1.0)
+
+- Update docs to reflect new enzyme-context API
+
+### enzyme-context-redux (v1.1.0)
+
+- Update docs to reflect new enzyme-context API
+
+### enzyme-context-utils
+
+_no changes_
 
 # enzyme-context
 
