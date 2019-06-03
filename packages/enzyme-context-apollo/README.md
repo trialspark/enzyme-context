@@ -207,7 +207,7 @@ What are the main causes of mocks not working?
    you need to make sure that the data passed in matches the schema data types,
    otherwise your mock function won't get called.
    For example, if you pass in a null argument where your schema is expecting a defined value,
-   the call will silently fail and your mock won't get run.
+   the call will fail and your mock won't get run.
 
 3. Not waiting for results
 
