@@ -166,7 +166,7 @@ This plugin also allows some configuration to be passed at mount-time:
 
 **Help! My mocks don't seem to be working.**
 
-We've found there are three typical reasons that cause mocks to not work. We'll go over the three cases below. Let's assume we're working with a very simple GraphQL Schema like this:
+We've found there are a few typical reasons that mocks fail. Let's assume we're working with a very simple GraphQL schema like this:
 
 ```
 schema {
@@ -183,12 +183,12 @@ type Mutation {
 }
 ```
 
-What are the three main causes of mocks not working?
+What are the main causes of mocks not working?
 
-1. Mock names don't aligning with schema names
+1. Mock names don't align with schema names
 
    You need to make sure that the type name and field name you're trying to mock exactly match your schema.
-Here's an example of how this problem might arise:
+   Here's an example of how this problem might arise:
 
    ```javascript
    const wrapper = mount(<MyComponent />, {
@@ -203,16 +203,16 @@ Here's an example of how this problem might arise:
 
 2. Wrong data types
 
-   If you call a mutation or pass parameters to a query,
-   you need to make sure that the data passed in exactly matched the schema, otherwise your mock function won't get called.
+   If you call a mutation or pass arguments to a query,
+   you need to make sure that the data passed in matches the schema data types,
+   otherwise your mock function won't get called.
    For example, if you pass in a null argument where your schema is expecting a defined value,
-   the call will silently fail and your mock won't get called.
-
+   the call will silently fail and your mock won't get run.
 
 3. Not waiting for results
 
    The apollo client / mock GraphQL backend operate asynchronously, so when a new query or mutation is made,
-you have to wait before it is completed.
+   you can't expect it to be sychronously completed and must instead wait for it to finish.
 
    Ideally, your component has a prop that returns a promise that is completed when your mutation completes.
    In that case, you can simply `await` that promise:
