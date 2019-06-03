@@ -161,3 +161,75 @@ This plugin also allows some configuration to be passed at mount-time:
        },
      });
      ```
+     
+## FAQ / Tips
+
+**Help! My mocks don't seem to be working.**
+
+We've found there are three typical reasons that cause mocks to not work. We'll go over the three cases below. Let's assume we're working with a very simple GraphQL Schema like this:
+
+```
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  id: String!
+}
+
+type Mutation {
+  logoutUser(user: String!): Boolean!
+}
+```
+
+What are the three main causes of mocks not working?
+
+1. Mock names don't aligning with schema names
+
+   You need to make sure that the type name and field name you're trying to mock exactly match your schema.
+Here's an example of how this problem might arise:
+
+   ```javascript
+   const wrapper = mount(<MyComponent />, {
+    apolloMocks: {
+      // Type name in the GraphQL schema is `Mutation`, so this won't work
+      Mutations: () => ({
+        logoutUser: someMockImplementationFunction
+      }),
+    },
+   });
+   ```
+
+2. Wrong data types
+
+   If you call a mutation or pass parameters to a query,
+   you need to make sure that the data passed in exactly matched the schema, otherwise your mock function won't get called.
+   For example, if you pass in a null argument where your schema is expecting a defined value,
+   the call will silently fail and your mock won't get called.
+
+
+3. Not waiting for results
+
+   The apollo client / mock GraphQL backend operate asynchronously, so when a new query or mutation is made,
+you have to wait before it is completed.
+
+   Ideally, your component has a prop that returns a promise that is completed when your mutation completes.
+   In that case, you can simply `await` that promise:
+
+   ```ts
+   await component.prop('onLogoutClick')();
+   // now assert something here
+   ```
+
+   However, sometimes you might not be able to get a handle to a promise.
+   In that case you can typically just wait a tick and the async operations will be resolved:
+
+   ```ts
+   const sleep = (ms=0) => new Promise(resolve => setTimeout(resolve, ms));
+
+   component.find('button').simulate('click');
+   await sleep();
+   // now assert something
+   ```
+
