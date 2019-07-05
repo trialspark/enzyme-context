@@ -25,7 +25,7 @@
     "jest": "^23.6.0",
     "jest-environment-enzyme": "^7.0.1",
     "jest-enzyme": "^7.0.1",
-    "lerna": "^3.4.3",
+    "lerna": "^3.1.5",
     "lint-staged": "^8.0.5",
     "prettier": "^1.15.2",
     "prop-types": "^15.6.2",
