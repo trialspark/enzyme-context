@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnzymePlugin, ContextWatcher, bindContextToWrapper } from 'enzyme-context-utils';
+import { EnzymePlugin, composeWrappingComponents } from 'enzyme-context-utils';
 import {
   FragmentMatcherInterface,
   InMemoryCache,
@@ -43,23 +43,18 @@ export const apolloContext: (
     link: new SchemaLink({ schema }),
     cache: new InMemoryCache({ fragmentMatcher: config.fragmentMatcher }),
   });
-  const context = new ContextWatcher(Watcher => (
-    <ApolloProvider client={client}>
-      <Watcher />
-    </ApolloProvider>
-  ));
+  const ApolloContextProvider: React.FC = ({ children }) => (
+    <ApolloProvider client={client}>{children}</ApolloProvider>
+  );
 
   return {
     node,
     controller: client,
     options: {
-      context: {
-        ...context.value,
-      },
-      childContextTypes: {
-        ...ApolloProvider.childContextTypes,
-      },
+      wrappingComponent: composeWrappingComponents(
+        options.wrappingComponent,
+        ApolloContextProvider,
+      ),
     },
-    updater: bindContextToWrapper(context),
   };
 };

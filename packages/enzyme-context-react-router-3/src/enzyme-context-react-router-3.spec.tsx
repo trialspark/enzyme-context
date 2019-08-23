@@ -8,7 +8,7 @@ import { GetOptions } from 'enzyme-context/src';
 const Component: React.SFC<WithRouterProps> = props => {
   return <div>Path is: {props.location.pathname}</div>;
 };
-const ComponentWithRouter = withRouter<{}>(Component);
+const ComponentWithRouter = withRouter<{}>(Component as any);
 
 describe('enzyme-context-react-router-3', () => {
   let mount: (
@@ -51,7 +51,7 @@ describe('enzyme-context-react-router-3', () => {
   });
 
   it('supports rendering a <Route /> directly', () => {
-    component = mount(<Route path="/foo/bar" component={Component} />);
+    component = mount(<Route path="/foo/bar" component={Component as any} />);
 
     expect(component.exists()).toBe(true);
     expect(component.find(Component).exists()).toBe(false);
@@ -62,7 +62,7 @@ describe('enzyme-context-react-router-3', () => {
   });
 
   it('allows memory history options to be passed', () => {
-    component = mount(<Route path="/foo/bar" component={Component} />, {
+    component = mount(<Route path="/foo/bar" component={Component as any} />, {
       routerConfig: { entries: ['/foo/bar'] },
     });
     expect(component.find(Component).exists()).toBe(true);

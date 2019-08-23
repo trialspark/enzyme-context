@@ -19,9 +19,9 @@
     "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
   },
   "dependencies": {
-    "apollo-link-schema": "^1.1.1",
+    "apollo-link-schema": "^1.2.3",
     "enzyme-context-utils": "^1.0.2",
-    "graphql-tools": "^4.0.3"
+    "graphql-tools": "^4.0.5"
   },
   "description": "Initialize react-apollo context with enzyme-context",
   "main": "dist/index.js",

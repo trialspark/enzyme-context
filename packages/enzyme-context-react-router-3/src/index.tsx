@@ -17,7 +17,8 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, History
     Watcher => (
       <Router history={history}>
         {/* Set path to "*" so that the Watcher component always renders */}
-        <Route path="*" component={Watcher} />
+        {/* Cast to `any` because react-router v3 is using an older version of react types */}
+        <Route path="*" component={Watcher as any} />
       </Router>
     ),
     RouterContext.childContextTypes,
