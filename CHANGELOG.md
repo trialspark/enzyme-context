@@ -10,6 +10,30 @@
 
 ### enzyme-context-utils (vNext)
 
+# enzyme-context
+
+_no changes_
+
+### enzyme-context-apollo (v2.0.0)
+
+- Adds support for the latest version of `react-apollo`
+
+### enzyme-context-react-router-3
+
+_no changes_
+
+### enzyme-context-react-router-4 (v2.0.0)
+
+- Adds support for the latest version of `react-router`
+
+### enzyme-context-redux (v2.0.0)
+
+- Adds support for the latest version of `react-redux`
+
+### enzyme-context-utils (v1.1.0)
+
+- Adds `composeWrappingComponents` utility function
+
 # enzyme-context (v1.1.0)
 
 - Change enzyme-context's `mount()` and `shallow()` functions to return a `ReactWrapper` and `ShallowWrapper` instead of an object. Plugin controllers are then attached directly to the returned Enzyme wrapper. To maintain backwards-compatibility with previous versions of enzyme-context a `component` attribute is also attached to the wrapper that just references itself.
