@@ -1,5 +1,7 @@
 # enzyme-context (vNext)
 
+- Fix issue where only one plugin using `wrappingComponent` would work
+
 ### enzyme-context-apollo (vNext)
 
 ### enzyme-context-react-router-3 (vNext)
