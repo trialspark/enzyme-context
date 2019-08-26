@@ -32,7 +32,7 @@ export function executePlugins<P extends EnzymePlugins, O extends GetOptions<any
 
   return Object.entries(plugins).reduce(
     (previous, [key, plugin]) => {
-      const result = plugin(previous.node, options);
+      const result = plugin(previous.node, previous.options);
 
       return {
         node: result.node,

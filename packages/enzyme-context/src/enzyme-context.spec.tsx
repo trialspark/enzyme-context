@@ -1,7 +1,7 @@
 import React, { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
-import { EnzymePlugin } from 'enzyme-context-utils';
+import { EnzymePlugin, composeWrappingComponents } from 'enzyme-context-utils';
 import { createMount, createShallow, GetContextWrapper } from '.';
 
 jest.mock('once', () => (fn: (...args: any[]) => any) => (...args: any[]) => fn(...args));
@@ -49,6 +49,10 @@ class ContextualComponent extends Component {
   }
 }
 
+const WrappingComponentA: React.FC = ({ children }) => <>{children}</>;
+
+const WrappingComponentB: React.FC = ({ children }) => <>{children}</>;
+
 const createPluginA = () => {
   const unmounter = jest.fn();
   const updater = jest.fn().mockReturnValue(unmounter);
@@ -64,6 +68,7 @@ const createPluginA = () => {
         context: {
           controllerA: controller,
         },
+        wrappingComponent: composeWrappingComponents(options.wrappingComponent, WrappingComponentA),
       },
     };
   };
@@ -82,6 +87,7 @@ const createPluginB = () => {
         context: {
           controllerB: controller,
         },
+        wrappingComponent: composeWrappingComponents(options.wrappingComponent, WrappingComponentB),
       },
     };
   };
@@ -180,6 +186,21 @@ After:
       it("merges in the plugin's options", () => {
         expect(component.instance().controllerA).toBe(component.a);
         expect(component.instance().controllerB).toBe(component.b);
+      });
+
+      it('allows composition of wrapping components', () => {
+        expect(
+          component
+            .getWrappingComponent()
+            .find(WrappingComponentA)
+            .exists(),
+        ).toBe(true);
+        expect(
+          component
+            .getWrappingComponent()
+            .find(WrappingComponentB)
+            .exists(),
+        ).toBe(true);
       });
 
       it('returns controllers', () => {
