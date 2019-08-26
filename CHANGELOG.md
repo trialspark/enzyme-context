@@ -10,17 +10,17 @@
 
 ### enzyme-context-utils (vNext)
 
-# enzyme-context
+# enzyme-context (v1.1.1)
 
-_no changes_
+- Update `lodash.merge` dependency
 
 ### enzyme-context-apollo (v2.0.0)
 
 - Adds support for the latest version of `react-apollo`
 
-### enzyme-context-react-router-3
+### enzyme-context-react-router-3 (v1.1.1)
 
-_no changes_
+- Fix types that broke as a result of upgrading some dev deps
 
 ### enzyme-context-react-router-4 (v2.0.0)
 
