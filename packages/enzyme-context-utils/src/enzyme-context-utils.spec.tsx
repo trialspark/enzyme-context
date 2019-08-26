@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ReactWrapper, mount } from 'enzyme';
-import { ContextWatcher, bindContextToWrapper } from '.';
+import { ContextWatcher, bindContextToWrapper, composeWrappingComponents } from '.';
 
 type ContextTypes = {
   myStuff: {
@@ -274,6 +274,72 @@ describe('enzyme-context-utils', () => {
       wrapper.update();
 
       expect(wrapper.text()).toBe('hello! world!');
+    });
+  });
+
+  describe('composeWrappingComponents(...components)', () => {
+    const ComponentA: React.FC<{ alpha: string; bravo: string }> = ({ children }) => {
+      return <>{children}</>;
+    };
+    const ComponentB: React.FC<{ charlie: string; delta: string }> = ({ children }) => {
+      return <>{children}</>;
+    };
+    const ComponentC: React.FC<{ echo: string; foxtrot: string }> = ({ children }) => {
+      return <>{children}</>;
+    };
+
+    it('creates a new component that renders all the passed ones', () => {
+      const WrappingComponent = composeWrappingComponents(ComponentA, ComponentB, ComponentC);
+      const props = { alpha: 'a', bravo: 'b', charlie: 'c', delta: 'd', echo: 'e', foxtrot: 'f' };
+      const component = mount(<WrappingComponent {...props} />);
+
+      expect(component.debug()).toMatchInlineSnapshot(`
+        "<CombiningComponent alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+          <CombiningComponent alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+            <ComponentA alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+              <ComponentB alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+                <ComponentC alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\" />
+              </ComponentB>
+            </ComponentA>
+          </CombiningComponent>
+        </CombiningComponent>"
+      `);
+    });
+
+    it('returns the only provided component if only one is passed', () => {
+      expect(composeWrappingComponents(ComponentB)).toBe(ComponentB);
+    });
+
+    it('ignores nulls or undefineds', () => {
+      const WrappingComponent = composeWrappingComponents(
+        null,
+        undefined,
+        ComponentA,
+        null,
+        ComponentB,
+        undefined,
+        ComponentC,
+      );
+      const props = { alpha: 'a', bravo: 'b', charlie: 'c', delta: 'd', echo: 'e', foxtrot: 'f' };
+      const component = mount(<WrappingComponent {...props} />);
+
+      expect(component.debug()).toMatchInlineSnapshot(`
+        "<CombiningComponent alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+          <CombiningComponent alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+            <ComponentA alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+              <ComponentB alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\">
+                <ComponentC alpha=\\"a\\" bravo=\\"b\\" charlie=\\"c\\" delta=\\"d\\" echo=\\"e\\" foxtrot=\\"f\\" />
+              </ComponentB>
+            </ComponentA>
+          </CombiningComponent>
+        </CombiningComponent>"
+      `);
+    });
+
+    it('returns a function that renders its children if no components are passed', () => {
+      const WrappingComponent = composeWrappingComponents(undefined, undefined);
+      const component = mount(<WrappingComponent>foo</WrappingComponent>);
+      expect(component.text()).toBe('foo');
     });
   });
 });

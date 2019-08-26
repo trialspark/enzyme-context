@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import { Route } from 'react-router-dom';
 import { routerContext } from '.';
 
-const MyComponent: React.SFC<RouteComponentProps<{ id: string }>> = props => {
+const MyComponent: React.FC<RouteComponentProps<{ id: string }>> = props => {
   return <div>id is: {props.match.params.id}</div>;
 };
 

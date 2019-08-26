@@ -31,7 +31,7 @@ export class ContextWatcher extends ValueWatcher<any> {
    * needs to be passed if the root component returned by `render` does not define `childContextTypes`.
    */
   constructor(
-    render: (WatcherComponent: React.ComponentClass) => React.ReactElement<any>,
+    render: (WatcherComponent: React.ComponentClass<{}>) => React.ReactElement<any>,
     childContextTypes?: ComponentClass['childContextTypes'],
   ) {
     /**
@@ -130,3 +130,60 @@ export const bindContextToWrapper = (context: ContextWatcher) => {
     return () => context.stop();
   };
 };
+
+/**
+ * Takes multiple enzyme `wrappingComponent`s and combines them together into a single
+ * `wrappingComponent`. If `null`s or `undefined`s are passed, they are ignored. The combined
+ * `wrappingComponent` accepts and forwards all props to the combined `wrappingComponent`s.
+ */
+export function composeWrappingComponents<C extends React.ComponentType<any>>(component: C): C;
+export function composeWrappingComponents<P1 extends {}, P2 extends {}>(
+  componentA: React.ComponentType<P1>,
+  componentB: React.ComponentType<P2>,
+): React.ComponentType<P1 & P2>;
+export function composeWrappingComponents<A extends {}, B extends {}>(
+  componentA: React.ComponentType<A>,
+  componentB: React.ComponentType<B>,
+): React.ComponentType<A & B>;
+export function composeWrappingComponents<A extends {}, B extends {}, C extends {}>(
+  componentA: React.ComponentType<A>,
+  componentB: React.ComponentType<B>,
+  componentC: React.ComponentType<C>,
+): React.ComponentType<A & B & C>;
+export function composeWrappingComponents<C extends React.ComponentType<any>>(
+  componentA: C,
+  componentB: null | undefined,
+): C;
+export function composeWrappingComponents<C extends React.ComponentType<any>>(
+  componentA: null | undefined,
+  componentB: C,
+): C;
+export function composeWrappingComponents(
+  ...optionalComponents: (React.ComponentType<any> | null | undefined)[]
+): React.ComponentType<any>;
+export function composeWrappingComponents(
+  ...optionalComponents: (React.ComponentType<any> | null | undefined)[]
+): React.ComponentType<any> {
+  const components = optionalComponents.filter(
+    (value): value is React.ComponentType<any> => value != null,
+  );
+
+  if (components.length === 0) {
+    // Return a component that just renders its children
+    return ({ children }) => <>{children}</>;
+  }
+
+  return components.reduce((PreviousComponent, NextComponent) => {
+    const CombiningComponent: React.FC<
+      React.ComponentProps<typeof PreviousComponent> & React.ComponentProps<typeof NextComponent>
+    > = ({ children, ...rest }) => {
+      return (
+        <PreviousComponent {...rest}>
+          <NextComponent {...rest}>{children}</NextComponent>
+        </PreviousComponent>
+      );
+    };
+
+    return CombiningComponent;
+  });
+}
