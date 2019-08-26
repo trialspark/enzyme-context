@@ -1,6 +1,6 @@
 {
   "name": "enzyme-context-react-router-4",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "keywords": [
     "enzyme",
     "react",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@types/history": "^4.7.3",
-    "enzyme-context-utils": "^1.0.2",
+    "enzyme-context-utils": "^1.1.0",
     "history": "^4.9.0"
   },
   "description": "Initialize react-router v4 context with enzyme-context",

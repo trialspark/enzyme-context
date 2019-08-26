@@ -1,6 +1,6 @@
 {
   "name": "enzyme-context-apollo",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "keywords": [
     "enzyme",
     "react",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "apollo-link-schema": "^1.2.3",
-    "enzyme-context-utils": "^1.0.2",
+    "enzyme-context-utils": "^1.1.0",
     "graphql-tools": "^4.0.5"
   },
   "description": "Initialize react-apollo context with enzyme-context",

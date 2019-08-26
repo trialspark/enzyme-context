@@ -1,6 +1,6 @@
 {
   "name": "enzyme-context",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "enzyme",
     "react",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@types/lodash.merge": "^4.6.4",
-    "enzyme-context-utils": "^1.0.2",
+    "enzyme-context-utils": "^1.1.0",
     "lodash.merge": "^4.6.2",
     "once": "^1.4.0"
   },
