@@ -32,7 +32,7 @@
   "author": "TrialSpark, Inc.",
   "license": "MIT",
   "peerDependencies": {
-    "enzyme": ">=2",
+    "enzyme": ">=3.10",
     "react": ">=15",
     "react-router": "4.x"
   },

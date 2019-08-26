@@ -34,7 +34,7 @@
   "peerDependencies": {
     "apollo-cache-inmemory": "1.x",
     "apollo-client": "2.x",
-    "enzyme": ">=2",
+    "enzyme": ">=3.10",
     "react": ">=15",
     "react-apollo": "2.x"
   }
