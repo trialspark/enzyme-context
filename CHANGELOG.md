@@ -22,7 +22,7 @@ _no changes_
 
 _no changes_
 
-### enzyme-context-react-router-4
+### enzyme-context-react-router-4 (v2.1.0)
 
 - Upgrade peer dependency to react-router 4 or 5
 
