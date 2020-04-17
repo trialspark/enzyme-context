@@ -34,7 +34,7 @@
   "peerDependencies": {
     "enzyme": ">=3.10",
     "react": ">=15",
-    "react-router": "4.x"
+    "react-router": "4.x || 5.x"
   },
   "devDependencies": {
     "@types/react-router": "^5.0.3",
