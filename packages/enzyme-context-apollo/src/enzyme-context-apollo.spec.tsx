@@ -1,11 +1,8 @@
+import { Query } from '@apollo/client/react/components';
 import React, { ReactElement } from 'react';
 import gql from 'graphql-tag';
 import { ReactWrapper, MountRendererProps } from 'enzyme';
 import { createMount, GetContextWrapper, GetOptions } from 'enzyme-context';
-import { makeExecutableSchema } from 'graphql-tools';
-import { getIntrospectionQuery, execute, parse, IntrospectionQuery } from 'graphql';
-import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { Query } from 'react-apollo';
 import { apolloContext } from '.';
 
 const GraphQLSchema = gql`
@@ -29,7 +26,7 @@ const GraphQLSchema = gql`
   schema {
     query: Query
   }
-`.loc.source.body;
+`.loc!.source.body;
 
 const TestQuery = gql`
   query TestQuery {
@@ -68,18 +65,8 @@ describe('enzyme-context-apollo', () => {
   };
 
   beforeEach(async () => {
-    const introspectionQuery = getIntrospectionQuery();
-    const introspectionResult = await execute<IntrospectionQuery>(
-      makeExecutableSchema({ typeDefs: GraphQLSchema }),
-      parse(introspectionQuery),
-    );
-    const fragmentMatcher = new IntrospectionFragmentMatcher({
-      introspectionQueryResultData: introspectionResult.data as any,
-    });
-
     const _mount = createMount({
       client: apolloContext({
-        fragmentMatcher,
         schema: {
           typeDefs: GraphQLSchema,
         },
