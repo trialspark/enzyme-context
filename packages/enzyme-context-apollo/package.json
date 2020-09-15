@@ -19,6 +19,7 @@
     "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
   },
   "dependencies": {
+    "apollo-link-schema": "^1.2.3",
     "enzyme-context-utils": "^1.1.0",
     "graphql-tools": "^4.0.5"
   },
@@ -31,8 +32,10 @@
   "author": "TrialSpark, Inc.",
   "license": "MIT",
   "peerDependencies": {
-    "@apollo/client": "3.x",
+    "apollo-cache-inmemory": "1.x",
+    "apollo-client": "2.x",
     "enzyme": ">=3.10",
-    "react": ">=15"
+    "react": ">=15",
+    "react-apollo": "2.x"
   }
 }

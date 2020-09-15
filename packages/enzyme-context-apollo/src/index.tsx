@@ -1,23 +1,23 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  PossibleTypesMap,
-  NormalizedCacheObject,
-} from '@apollo/client';
-import { SchemaLink } from '@apollo/client/link/schema';
 import React from 'react';
 import { EnzymePlugin, composeWrappingComponents } from 'enzyme-context-utils';
+import {
+  FragmentMatcherInterface,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from 'apollo-cache-inmemory';
 import {
   makeExecutableSchema,
   IExecutableSchemaDefinition,
   IMocks,
   addMockFunctionsToSchema,
 } from 'graphql-tools';
+import ApolloClient from 'apollo-client';
+import { SchemaLink } from 'apollo-link-schema';
+import { ApolloProvider } from 'react-apollo';
 import { defaultMocks } from './Utils';
 
 export type ApolloPluginConfig = {
-  possibleTypes?: PossibleTypesMap;
+  fragmentMatcher?: FragmentMatcherInterface;
   schema: IExecutableSchemaDefinition;
   defaultMocks?: IMocks;
 };
@@ -41,7 +41,7 @@ export const apolloContext: (
   });
   const client = new ApolloClient({
     link: new SchemaLink({ schema }),
-    cache: new InMemoryCache({ possibleTypes: config.possibleTypes }),
+    cache: new InMemoryCache({ fragmentMatcher: config.fragmentMatcher }),
   });
   const ApolloContextProvider: React.FC = ({ children }) => (
     <ApolloProvider client={client}>{children}</ApolloProvider>
