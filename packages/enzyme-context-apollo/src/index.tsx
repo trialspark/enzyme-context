@@ -11,7 +11,7 @@ import {
   IMocks,
   addMockFunctionsToSchema,
 } from 'graphql-tools';
-import ApolloClient from 'apollo-client';
+import ApolloClient, { DefaultOptions } from 'apollo-client';
 import { SchemaLink } from 'apollo-link-schema';
 import { ApolloProvider } from 'react-apollo';
 import { defaultMocks } from './Utils';
@@ -20,6 +20,7 @@ export type ApolloPluginConfig = {
   fragmentMatcher?: FragmentMatcherInterface;
   schema: IExecutableSchemaDefinition;
   defaultMocks?: IMocks;
+  defaultOptions?: DefaultOptions;
 };
 
 export type ApolloPluginMountOptions = {
@@ -42,6 +43,7 @@ export const apolloContext: (
   const client = new ApolloClient({
     link: new SchemaLink({ schema }),
     cache: new InMemoryCache({ fragmentMatcher: config.fragmentMatcher }),
+    defaultOptions: config.defaultOptions,
   });
   const ApolloContextProvider: React.FC = ({ children }) => (
     <ApolloProvider client={client}>{children}</ApolloProvider>
