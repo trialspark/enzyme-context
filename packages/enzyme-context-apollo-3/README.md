@@ -6,7 +6,7 @@ This plugin sets up an apollo client with a mock graphql backend to test compone
 
 ## Installation
 
-1. Setup required peer dependencies: [apollo-cache-inmemory](https://github.com/apollographql/apollo-client/tree/master/packages/apollo-cache-inmemory#installation), [apollo-client](https://www.apollographql.com/docs/react/advanced/boost-migration.html#after), [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), [react-apollo](https://github.com/apollographql/react-apollo#installation), and [react-test-renderer](https://reactjs.org/docs/test-renderer.html).
+1. Setup required peer dependencies: [@apollo/client](https://www.apollographql.com/docs/react/get-started/), [enzyme](https://airbnb.io/enzyme/docs/installation/), [react](https://reactjs.org/docs/getting-started.html), and [react-test-renderer](https://reactjs.org/docs/test-renderer.html).
 
 2. Install via yarn or npm
 
@@ -83,7 +83,7 @@ describe('<MyComponent />', () => {
 1.  `options` (`Object`):
 
     - `options.schema` (`IExecutableSchemaDefinition`): the same object passed to [`graphql-tools`'s `makeExecutableSchema`](https://www.apollographql.com/docs/graphql-tools/generate-schema.html#makeExecutableSchema).
-    - `options.fragmentMatcher` (`FragmentMatcherInterface` [optional]): Useful if your app is using fragments on unions and interfaces. Example:
+    - `options.possibleTypes` (`PossibleTypesMap` [optional]): Useful if your app is using fragments on unions and interfaces. Example:
 
       ```javascript
       import { createMount } from 'enzyme-context';
