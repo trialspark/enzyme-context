@@ -1,6 +1,7 @@
 import {
   ApolloClient,
   ApolloProvider,
+  DefaultOptions,
   InMemoryCache,
   PossibleTypesMap,
   NormalizedCacheObject,
@@ -20,6 +21,7 @@ export type ApolloPluginConfig = {
   possibleTypes?: PossibleTypesMap;
   schema: IExecutableSchemaDefinition;
   defaultMocks?: IMocks;
+  defaultOptions?: DefaultOptions;
 };
 
 export type ApolloPluginMountOptions = {
@@ -42,6 +44,7 @@ export const apolloContext: (
   const client = new ApolloClient({
     link: new SchemaLink({ schema }),
     cache: new InMemoryCache({ possibleTypes: config.possibleTypes }),
+    defaultOptions: config.defaultOptions,
   });
   const ApolloContextProvider: React.FC = ({ children }) => (
     <ApolloProvider client={client}>{children}</ApolloProvider>
