@@ -6,6 +6,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { getIntrospectionQuery, execute, parse, IntrospectionQuery } from 'graphql';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { Query } from 'react-apollo';
+import { act } from 'react-dom/test-utils';
 import { apolloContext } from '.';
 
 const GraphQLSchema = gql`
@@ -57,6 +58,7 @@ const MyComponent: React.SFC = () => {
 };
 
 describe('enzyme-context-apollo', () => {
+  let fragmentMatcher: IntrospectionFragmentMatcher;
   let mount: (
     node: ReactElement<any>,
     options?: GetOptions<MountRendererProps, Plugins>,
@@ -67,13 +69,24 @@ describe('enzyme-context-apollo', () => {
     client: ReturnType<typeof apolloContext>;
   };
 
+  const defaultCompanyResolver = () => ({
+    name: 'TrialSpark',
+    age: null,
+  });
+  const defaultAddressResolver = () => ({
+    street: '45 West 11th',
+    city: 'New York',
+    state: 'NY',
+    zip: '10011',
+  });
+
   beforeEach(async () => {
     const introspectionQuery = getIntrospectionQuery();
     const introspectionResult = await execute<IntrospectionQuery>(
       makeExecutableSchema({ typeDefs: GraphQLSchema }),
       parse(introspectionQuery),
     );
-    const fragmentMatcher = new IntrospectionFragmentMatcher({
+    fragmentMatcher = new IntrospectionFragmentMatcher({
       introspectionQueryResultData: introspectionResult.data as any,
     });
 
@@ -85,24 +98,17 @@ describe('enzyme-context-apollo', () => {
         },
         defaultMocks: {
           Query: () => ({
-            address: () => ({
-              street: '45 West 11th',
-              city: 'New York',
-              state: 'NY',
-              zip: '10011',
-            }),
-            company: () => ({
-              name: 'TrialSpark',
-              age: null,
-            }),
+            address: defaultAddressResolver,
+            company: defaultCompanyResolver,
           }),
         },
       }),
     });
     mount = _mount;
     component = mount(<MyComponent />);
-    await component.client.resetStore();
-    component.update();
+    await act(async () => {
+      await component.client.resetStore();
+    });
   });
 
   it('exists', () => {
@@ -122,9 +128,46 @@ describe('enzyme-context-apollo', () => {
         }),
       },
     });
-    await component.client.resetStore();
-    component.update();
+    await act(async () => {
+      await component.client.resetStore();
+    });
     expect(component.text()).toContain('Street: 45 West 11th');
     expect(component.text()).toContain('Company: Cool Co.');
+  });
+
+  it('returns the result of a custom resolver if the default resolver throws an error', async () => {
+    const defaultResolverWithError = () => {
+      throw new Error('Default mock not found!');
+    };
+    mount = createMount({
+      client: apolloContext({
+        fragmentMatcher,
+        defaultMocks: {
+          Query: () => ({
+            address: defaultResolverWithError,
+            company: defaultCompanyResolver,
+          }),
+        },
+        schema: {
+          typeDefs: GraphQLSchema,
+        },
+      }),
+    });
+    component = mount(<MyComponent />, {
+      apolloMocks: {
+        Query: () => ({
+          address: () => ({
+            street: '45 West 11th',
+            city: 'New York',
+            state: 'NY',
+            zip: '10011',
+          }),
+        }),
+      },
+    });
+    await act(async () => {
+      await component.client.resetStore();
+    });
+    expect(component.text()).toContain('Street: 45 West 11th');
   });
 });
