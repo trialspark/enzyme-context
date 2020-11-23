@@ -1,6 +1,6 @@
 {
-  "name": "enzyme-context-apollo-3",
-  "version": "1.0.0",
+  "name": "enzyme-context-apollo-utils",
+  "version": "0.0.0",
   "keywords": [
     "enzyme",
     "react",
@@ -18,26 +18,12 @@
     "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json",
     "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
   },
-  "devDependencies": {
-    "@apollo/client": "^3.2.0",
-    "subscriptions-transport-ws": "^0.9.18"
-  },
-  "dependencies": {
-    "enzyme-context-apollo-utils": "0.0.0",
-    "enzyme-context-utils": "^1.1.0",
-    "graphql-tools": "^4.0.5"
-  },
-  "description": "Initialize react-apollo v3 context with enzyme-context",
+  "description": "Generate default mocks for apollo context",
   "main": "dist/index.js",
   "files": [
     "dist/**"
   ],
   "repository": "https://github.com/trialspark/enzyme-context",
   "author": "TrialSpark, Inc.",
-  "license": "MIT",
-  "peerDependencies": {
-    "@apollo/client": "3.x",
-    "enzyme": ">=3.10",
-    "react": ">=15"
-  }
+  "license": "MIT"
 }

@@ -6,5 +6,8 @@
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["./src/**/*.spec.*"],
-  "references": [{ "path": "../enzyme-context-utils" }]
+  "references": [
+    { "path": "../enzyme-context-utils" },
+    { "path": "../enzyme-context-apollo-utils" }
+  ]
 }
