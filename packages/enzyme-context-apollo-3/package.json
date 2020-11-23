@@ -1,6 +1,6 @@
 {
   "name": "enzyme-context-apollo-3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "enzyme",
     "react",
@@ -23,7 +23,7 @@
     "subscriptions-transport-ws": "^0.9.18"
   },
   "dependencies": {
-    "enzyme-context-apollo-utils": "0.0.0",
+    "enzyme-context-apollo-utils": "^1.0.0",
     "enzyme-context-utils": "^1.1.0",
     "graphql-tools": "^4.0.5"
   },
