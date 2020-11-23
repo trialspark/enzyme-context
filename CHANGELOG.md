@@ -2,6 +2,10 @@
 
 ### enzyme-context-apollo (vNext)
 
+### enzyme-context-apollo-3 (vNext)
+
+### enzyme-context-apollo-utils (vNext)
+
 ### enzyme-context-react-router-3 (vNext)
 
 ### enzyme-context-react-router-4 (vNext)
@@ -9,6 +13,66 @@
 ### enzyme-context-redux (vNext)
 
 ### enzyme-context-utils (vNext)
+
+# enzyme-context
+
+_no changes_
+
+### enzyme-context-apollo (v2.0.2)
+
+- Fix an issue where a default resolver would fail a request if it errored, even if a custom resolver mean to override it did not
+
+### enzyme-context-apollo-3 (v1.0.1)
+
+- Fix an issue where a default resolver would fail a request if it errored, even if a custom resolver mean to override it did not
+
+### enzyme-context-apollo-utils (v1.0.0)
+
+- New library to extract default mock function
+
+### enzyme-context-react-router-3
+
+_no changes_
+
+### enzyme-context-react-router-4
+
+_no changes_
+
+### enzyme-context-redux
+
+_no changes_
+
+### enzyme-context-utils
+
+_no changes_
+
+# enzyme-context
+
+_no changes_
+
+### enzyme-context-apollo
+
+_no changes_
+
+### enzyme-context-apollo-3 (v1.0.0)
+
+- New library for testing v3 of the apollo client
+
+### enzyme-context-react-router-3
+
+_no changes_
+
+### enzyme-context-react-router-4
+
+_no changes_
+
+### enzyme-context-redux
+
+_no changes_
+
+### enzyme-context-utils
+
+_no changes_
 
 # enzyme-context
 
