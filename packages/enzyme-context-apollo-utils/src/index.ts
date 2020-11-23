@@ -37,8 +37,12 @@ export function defaultMocks(mocks: IMocks, defaults: IMocks): IMocks {
           if (resolver && defaultResolver) {
             // Call _both_ resolvers
             const value = resolver(source, args, context, info);
-            const defaultValue = defaultResolver(source, args, context, info);
-
+            let defaultValue;
+            try {
+              defaultValue = defaultResolver(source, args, context, info);
+            } catch (e) {
+              return value;
+            }
             // If both the base mock and the default mock return a deeper level of mocks,
             // call this function recursively to merge their mocks together.
             if (isMock(value) && isMock(defaultValue)) {

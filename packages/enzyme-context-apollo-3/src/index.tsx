@@ -15,7 +15,7 @@ import {
   IMocks,
   addMockFunctionsToSchema,
 } from 'graphql-tools';
-import { defaultMocks } from './Utils';
+import { defaultMocks } from 'enzyme-context-apollo-utils';
 
 export type ApolloPluginConfig = {
   possibleTypes?: PossibleTypesMap;

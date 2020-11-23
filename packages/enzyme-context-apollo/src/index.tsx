@@ -14,7 +14,7 @@ import {
 import ApolloClient, { DefaultOptions } from 'apollo-client';
 import { SchemaLink } from 'apollo-link-schema';
 import { ApolloProvider } from 'react-apollo';
-import { defaultMocks } from './Utils';
+import { defaultMocks } from 'enzyme-context-apollo-utils';
 
 export type ApolloPluginConfig = {
   fragmentMatcher?: FragmentMatcherInterface;
