@@ -170,4 +170,31 @@ describe('enzyme-context-apollo', () => {
     });
     expect(component.text()).toContain('Street: 45 West 11th');
   });
+
+  it('throws the error from the default resolver if there is no custom resolver', async () => {
+    const errorMessage = 'Default mock not found!';
+    const defaultResolverWithError = () => {
+      throw new Error(errorMessage);
+    };
+    mount = createMount({
+      client: apolloContext({
+        fragmentMatcher,
+        defaultMocks: {
+          Query: () => ({
+            address: defaultResolverWithError,
+            company: defaultCompanyResolver,
+          }),
+        },
+        schema: {
+          typeDefs: GraphQLSchema,
+        },
+      }),
+    });
+    component = mount(<MyComponent />);
+    await expect(
+      act(async () => {
+        await component.client.resetStore();
+      }),
+    ).rejects.toThrowError(errorMessage);
+  });
 });
