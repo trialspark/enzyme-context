@@ -77,3 +77,10 @@ typings/
 
 # Build
 packages/*/dist/
+
+# tsbuildinfo
+**/tsconfig.tsbuildinfo
+**/tsconfig.test.tsbuildinfo
+
+# DS_Store
+**/.DS_Store
