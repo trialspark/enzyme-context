@@ -1,4 +1,4 @@
-# enzyme-context-react-router-4
+# enzyme-context-react-router-6
 
 ## Introduction
 
@@ -18,7 +18,7 @@ This plugin sets up the context required for `react-router` (v6) and exposes a `
 
    ```javascript
    import { createMount, createShallow } from 'enzyme-context';
-   import { routerContext } from 'enzyme-context-react-router-4';
+   import { routerContext } from 'enzyme-context-react-router-6';
 
    const plugins = {
      history: routerContext(),

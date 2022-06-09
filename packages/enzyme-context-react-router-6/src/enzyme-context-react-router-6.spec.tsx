@@ -64,6 +64,8 @@ describe('enzyme-context-react-router-6', () => {
     const mount = createMount({
       history: routerContext(),
     });
+
+    // initialEntries
     wrapper = mount(
       <Routes>
         <Route path="/my/url/:id" element={<MyComponent />} />
@@ -75,5 +77,16 @@ describe('enzyme-context-react-router-6', () => {
       },
     );
     expect(page().text()).toBe('id is: 44');
+
+    // location
+    wrapper = mount(
+      <Routes>
+        <Route path="/my/url/:id" element={<MyComponent />} />
+      </Routes>,
+      {
+        location: '/my/url/22',
+      },
+    );
+    expect(page().text()).toBe('id is: 22');
   });
 });
