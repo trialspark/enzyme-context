@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { EnzymePlugin, composeWrappingComponents } from 'enzyme-context-utils';
 import { Router } from 'react-router';
-import { createMemoryHistory, Location, MemoryHistory, MemoryHistoryOptions } from 'history';
+import { createMemoryHistory, MemoryHistory, MemoryHistoryOptions } from 'history';
 
 export type RouterPluginMountOptions = {
   routerConfig?: MemoryHistoryOptions;
-  location?: Location | string;
 };
 
 export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, MemoryHistory> = () => (
@@ -14,9 +13,9 @@ export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, MemoryH
 ) => {
   const history = createMemoryHistory(options.routerConfig);
   const RouterContextProvider: React.FC = ({ children }) => {
-    const [currentLocation, setCurrentLocation] = useState(options.location || history.location);
+    const [currentLocation, setCurrentLocation] = useState(history.location);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       const unlisten = history.listen(({ location }) => {
         setCurrentLocation(location);
       });

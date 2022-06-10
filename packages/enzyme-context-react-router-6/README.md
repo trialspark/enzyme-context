@@ -87,9 +87,3 @@ This plugin also allows some configuration to be passed at mount-time:
      },
    });
    ```
-2. `location` (`Partial<Location> | string` [optional]). Additionally, we can set the location before mount:
-   ```javascript
-   const wrapper = mount(<MyComponent />, {
-     location: '/my/url',
-   });
-   ```
