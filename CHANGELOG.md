@@ -14,17 +14,17 @@
 
 ### enzyme-context-utils (vNext)
 
-# enzyme-context
+# enzyme-context (v1.2.0)
 
-_no changes_
+- Upgrade to TypeScript 4 internally
 
-### enzyme-context-apollo
+### enzyme-context-apollo (v2.1.0)
 
-_no changes_
+- Upgrade to TypeScript 4 internally
 
-### enzyme-context-apollo-3
+### enzyme-context-apollo-3 (v1.1.0)
 
-_no changes_
+- Upgrade to TypeScript 4 internally
 
 ### enzyme-context-apollo-utils
 
