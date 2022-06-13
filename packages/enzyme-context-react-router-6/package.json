@@ -22,7 +22,7 @@
     "enzyme-context-utils": "^1.1.0",
     "history": "^5.3.0"
   },
-  "description": "Initialize react-router v4 context with enzyme-context",
+  "description": "Initialize react-router v6 context with enzyme-context",
   "main": "dist/index.js",
   "files": [
     "dist/**"
