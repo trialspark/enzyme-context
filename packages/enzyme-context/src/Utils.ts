@@ -81,7 +81,7 @@ export function hookIntoLifecycle<
   PR extends PluginReturns<any, any>,
   W extends ReactWrapper | ShallowWrapper
 >(pluginResults: PR, wrapper: W): void {
-  const unmount = wrapper.unmount;
+  const unmount = wrapper.unmount as () => W;
   const mount = wrapper instanceof ReactWrapper ? wrapper.mount : null;
   const lifecycle = new LifecycleTracker(wrapper, pluginResults.updaters);
 
@@ -118,7 +118,7 @@ export function hookIntoLifecycle<
     return result;
   }
 
-  wrapper.unmount = patchedUnmount;
+  (wrapper.unmount as () => W) = patchedUnmount;
 
   if (wrapper instanceof ReactWrapper) {
     wrapper.mount = patchedMount;
@@ -164,5 +164,5 @@ export function decorateEnzymeWrapper<
         return wrapper;
       },
     },
-  });
+  }) as GetContextWrapper<EW, P>;
 }

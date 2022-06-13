@@ -42,7 +42,7 @@ const TestQuery = gql`
 const MyComponent: React.SFC = () => {
   return (
     <Query query={TestQuery}>
-      {({ data }) => (
+      {({ data }: any) => (
         <div>
           Street: {data && data.address && data.address.street}
           <br />

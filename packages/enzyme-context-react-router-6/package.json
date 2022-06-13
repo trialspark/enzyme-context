@@ -1,0 +1,42 @@
+{
+  "name": "enzyme-context-react-router-6",
+  "version": "1.0.0",
+  "keywords": [
+    "enzyme",
+    "react",
+    "context",
+    "plugins",
+    "react-router",
+    "testing",
+    "javascript",
+    "typescript"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -b .",
+    "check-types": "tsc -p ./tsconfig.json --noEmit --pretty && tsc -p ./tsconfig.test.json --noEmit --pretty",
+    "lint": "tslint -p ./tsconfig.json && tslint -p ./tsconfig.test.json",
+    "prepublish": "yarn build && yarn check-types && yarn lint && yarn test"
+  },
+  "dependencies": {
+    "enzyme-context-utils": "^1.1.0",
+    "history": "^5.3.0"
+  },
+  "description": "Initialize react-router v6 context with enzyme-context",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
+  "repository": "https://github.com/trialspark/enzyme-context",
+  "author": "TrialSpark, Inc.",
+  "license": "MIT",
+  "peerDependencies": {
+    "enzyme": ">=3.10",
+    "react": ">=15",
+    "react-router": "6.x"
+  },
+  "devDependencies": {
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0"
+  }
+}
