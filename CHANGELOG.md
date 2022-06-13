@@ -18,6 +18,42 @@
 
 _no changes_
 
+### enzyme-context-apollo
+
+_no changes_
+
+### enzyme-context-apollo-3
+
+_no changes_
+
+### enzyme-context-apollo-utils
+
+_no changes_
+
+### enzyme-context-react-router-3
+
+_no changes_
+
+### enzyme-context-react-router-4
+
+_no changes_
+
+### enzyme-context-react-router-6 (v1.0.0)
+
+- Initial implementation to support v6 of react-router.
+
+### enzyme-context-redux
+
+_no changes_
+
+### enzyme-context-utils
+
+_no changes_
+
+# enzyme-context
+
+_no changes_
+
 ### enzyme-context-apollo (v2.0.2)
 
 - Fix an issue where a default resolver would fail a request if it errored, even if a custom resolver mean to override it did not
