@@ -1,3 +1,7 @@
+# Deprecated
+
+This repositiory is deprecated and will not be maintained. It will soon be archived.
+
 # enzyme-context
 
 [![Build Status](https://travis-ci.com/trialspark/enzyme-context.svg?branch=master)](https://travis-ci.com/trialspark/enzyme-context) [![Coverage Status](https://coveralls.io/repos/github/trialspark/enzyme-context/badge.svg?branch=master)](https://coveralls.io/github/trialspark/enzyme-context?branch=master)
