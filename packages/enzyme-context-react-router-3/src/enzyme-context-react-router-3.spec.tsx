@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { createMount, GetContextWrapper } from 'enzyme-context';
 import { ReactWrapper, MountRendererProps } from 'enzyme';
-import { withRouter, WithRouterProps, Route } from 'react-router';
+import { withRouter, WithRouterProps, Route, hashHistory } from 'react-router';
 import { routerContext } from '.';
 import { GetOptions } from 'enzyme-context/src';
 
@@ -76,5 +76,24 @@ describe('enzyme-context-react-router-3', () => {
       },
     );
     expect(component.text()).toBe('1');
+  });
+
+  it('allows to use history from config', () => {
+    const hashHistoryMount = createMount({
+      history: routerContext({
+        history: hashHistory,
+      }),
+    });
+
+    const hashHistoryComponent = hashHistoryMount(<ComponentWithRouter />);
+
+    expect(hashHistoryComponent.exists()).toBe(true);
+    expect(hashHistoryComponent.text()).toBe('Path is: /');
+
+    hashHistory.push('/foo/bar');
+
+    expect(hashHistoryComponent.text()).toBe('Path is: /foo/bar');
+
+    hashHistoryComponent.unmount();
   });
 });

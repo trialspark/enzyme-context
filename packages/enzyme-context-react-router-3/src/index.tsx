@@ -8,11 +8,17 @@ export interface RouterPluginMountOptions {
   routerConfig?: HistoryOptions & MemoryHistoryOptions;
 }
 
-export const routerContext: () => EnzymePlugin<RouterPluginMountOptions, History> = () => (
+export type RouterPluginConfig = {
+  history?: History;
+};
+
+export const routerContext: (
+  config?: RouterPluginConfig,
+) => EnzymePlugin<RouterPluginMountOptions, History> = (config: RouterPluginConfig = {}) => (
   node,
   options,
 ) => {
-  const history = createMemoryHistory(options.routerConfig);
+  const history = config.history || createMemoryHistory(options.routerConfig);
   const context = new ContextWatcher(
     Watcher => (
       <Router history={history}>
